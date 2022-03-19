@@ -1,15 +1,13 @@
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { Grid } from '@mui/material';
+import Header from './components/Header';
 
 export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </header>
-    </div>
+    <Grid container direction="column">
+      <Grid item>
+        <Header />
+      </Grid>
+      <Grid item>Test Content</Grid>
+    </Grid>
   );
 }
