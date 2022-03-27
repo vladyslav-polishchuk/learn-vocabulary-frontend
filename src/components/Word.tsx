@@ -5,6 +5,7 @@ import {
   Button,
   Chip,
   Stack,
+  Tooltip,
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import ListenIcon from '@mui/icons-material/VolumeUp';
@@ -53,16 +54,20 @@ export default function WordComponent({ word }: WordProps) {
         <Button size="small" color="primary">
           Learn more
         </Button>
-        <IconButton
-          title="Listen"
-          sx={{ ml: 'auto' }}
-          onClick={() => listenClick(word.value)}
-        >
-          <ListenIcon />
-        </IconButton>
-        <IconButton title="Mark as learned">
-          <MerkLearnedIcon />
-        </IconButton>
+
+        <Tooltip title="Listen">
+          <IconButton
+            sx={{ ml: 'auto' }}
+            onClick={() => listenClick(word.value)}
+          >
+            <ListenIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Mark as learned">
+          <IconButton>
+            <MerkLearnedIcon />
+          </IconButton>
+        </Tooltip>
       </CardActions>
     </Card>
   );

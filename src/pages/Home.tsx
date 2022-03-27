@@ -1,4 +1,4 @@
-import { Box, Typography, Input, Button, Grid } from '@mui/material';
+import { Box, Typography, Input, Button, Grid, TextField } from '@mui/material';
 import { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
@@ -34,11 +34,30 @@ export default function Home() {
         Home Page ({words.length})
       </Typography>
 
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{ my: 2 }}>
+        <Grid item xs={2}></Grid>
         <Grid item xs={6}>
-          <Typography variant="body1">Selected File - {fileName}</Typography>
+          <TextField
+            variant="outlined"
+            disabled
+            fullWidth
+            value={fileName}
+            size="small"
+          >
+            <label htmlFor="contained-button-file">
+              <Input
+                id="contained-button-file"
+                type="file"
+                sx={{ display: 'none' }}
+                onChange={handleFiles}
+              />
+              <Button variant="contained" component="span">
+                Pick File
+              </Button>
+            </label>
+          </TextField>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4} sx={{ alignSelf: 'center' }}>
           <label htmlFor="contained-button-file">
             <Input
               id="contained-button-file"
@@ -51,6 +70,8 @@ export default function Home() {
             </Button>
           </label>
         </Grid>
+        <Grid item xs={2}></Grid>
+
         <Grid item container xs={12} spacing={2}>
           {wordNodes}
         </Grid>
