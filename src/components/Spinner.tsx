@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from '@mui/material';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 interface SpinnerProps {
   loading: boolean;
@@ -6,21 +6,8 @@ interface SpinnerProps {
 
 export default function Spinner({ loading }: SpinnerProps) {
   return (
-    <Box
-      sx={{
-        display: loading ? 'flex' : 'none',
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        background: 'rgba(0, 0, 0, 0.3)',
-        zIndex: 999,
-      }}
-    >
+    <Backdrop sx={{ color: '#fff', zIndex: 999 }} open={loading}>
       <CircularProgress />
-    </Box>
+    </Backdrop>
   );
 }
