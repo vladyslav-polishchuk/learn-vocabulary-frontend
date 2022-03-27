@@ -12,7 +12,7 @@ export default function App() {
           <Header />
         </Grid>
         <Grid item sx={{ my: 5 }}>
-          <Container>
+          <Container sx={{ mt: '48px' }}>
             <Routes>
               <Route path="/" element={<HomePage />}></Route>
               <Route path="*" element={<NotFound />}></Route>
