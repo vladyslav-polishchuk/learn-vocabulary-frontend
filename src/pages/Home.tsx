@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { selectFile } from '../store/vocabularySlice';
 import Spinner from '../components/Spinner';
+import Word from '../components/Word';
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { fileName, fileContent, status } = useSelector(
+  const { fileName, words, status } = useSelector(
     (state: RootState) => state.vocabulary
   );
 
@@ -19,12 +20,18 @@ export default function Home() {
     dispatch(selectFile(file));
   };
 
+  const wordNodes = words.map((word) => (
+    <Grid item key={word.value} xs={4}>
+      <Word word={word}></Word>
+    </Grid>
+  ));
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Spinner loading={status === 'loading'} />
 
       <Typography variant="h2" align="center" sx={{ fontWeight: 'bold' }}>
-        Home Page
+        Home Page ({words.length})
       </Typography>
 
       <Grid container>
@@ -46,10 +53,8 @@ export default function Home() {
             </label>
           </Grid>
         </Grid>
-        <Grid item xs={12}>
-          <Typography variant="body2" align="center">
-            File Content - {fileContent}
-          </Typography>
+        <Grid item container xs={12} spacing={1}>
+          {wordNodes}
         </Grid>
       </Grid>
     </Box>

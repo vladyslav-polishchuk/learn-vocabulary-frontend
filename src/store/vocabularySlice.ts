@@ -1,34 +1,35 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import getWordsByFrequency from '../businessLogic/getWordsByFrequency';
+
+export interface Word {
+  value: string;
+  frequency: number;
+}
 
 export interface VocabularyState {
   fileName: string;
-  fileContent: string;
+  words: Word[];
   status: 'idle' | 'loading' | 'failed';
 }
 
 const initialState: VocabularyState = {
   fileName: '',
-  fileContent: '',
+  words: [],
   status: 'idle',
 };
 
 export const selectFile = createAsyncThunk(
-  'counter/fetchCount',
+  'vocabulary/selectFile',
   async (file: File) => {
     const fileName = file.name;
-    const fileContent = await new Promise((resolve) => {
-      const fileReader = new FileReader();
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.readAsText(file);
-    });
-    return { fileName, fileContent };
+    const words = await getWordsByFrequency(file);
+
+    return { fileName, words };
   }
 );
 
 export const vocabularySlice = createSlice({
-  name: 'counter',
+  name: 'vocabulary',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -38,8 +39,8 @@ export const vocabularySlice = createSlice({
       })
       .addCase(selectFile.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.fileName += action.payload.fileName;
-        state.fileContent += action.payload.fileContent;
+        state.fileName = action.payload.fileName;
+        state.words = action.payload.words;
       });
   },
 });
