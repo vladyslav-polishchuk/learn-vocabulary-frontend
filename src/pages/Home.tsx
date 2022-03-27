@@ -34,26 +34,24 @@ export default function Home() {
         Home Page ({words.length})
       </Typography>
 
-      <Grid container>
-        <Grid item container xs={12}>
-          <Grid item xs={6}>
-            <Typography variant="body1">Selected File - {fileName}</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <label htmlFor="contained-button-file">
-              <Input
-                id="contained-button-file"
-                type="file"
-                sx={{ display: 'none' }}
-                onChange={handleFiles}
-              />
-              <Button variant="contained" component="span">
-                Pick File
-              </Button>
-            </label>
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={6}>
+          <Typography variant="body1">Selected File - {fileName}</Typography>
         </Grid>
-        <Grid item container xs={12} spacing={1}>
+        <Grid item xs={6}>
+          <label htmlFor="contained-button-file">
+            <Input
+              id="contained-button-file"
+              type="file"
+              sx={{ display: 'none' }}
+              onChange={handleFiles}
+            />
+            <Button variant="contained" component="span">
+              Pick File
+            </Button>
+          </label>
+        </Grid>
+        <Grid item container xs={12} spacing={2}>
           {wordNodes}
         </Grid>
       </Grid>
