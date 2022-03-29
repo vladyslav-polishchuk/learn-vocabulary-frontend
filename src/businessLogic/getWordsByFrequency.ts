@@ -83,7 +83,7 @@ export default async function getWordsByFrequency(file: File): Promise<Word[]> {
       (wordsByFrequencyMap.get(b) || 0) - (wordsByFrequencyMap.get(a) || 0)
   );
 
-  return result.slice(0, 500).map((value) => ({
+  return result.slice(0, 100).map((value) => ({
     value,
     frequency: wordsByFrequencyMap.get(value) ?? 1,
   }));
