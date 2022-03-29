@@ -9,12 +9,14 @@ export interface Word {
 export interface VocabularyState {
   fileName: string;
   words: Word[];
+  selectedWord: Word | null;
   status: 'idle' | 'loading' | 'failed';
 }
 
 const initialState: VocabularyState = {
   fileName: '',
   words: [],
+  selectedWord: null,
   status: 'idle',
 };
 
@@ -31,7 +33,11 @@ export const selectFile = createAsyncThunk(
 export const vocabularySlice = createSlice({
   name: 'vocabulary',
   initialState,
-  reducers: {},
+  reducers: {
+    selectWord: (state, action) => {
+      state.selectedWord = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(selectFile.pending, (state) => {
@@ -44,5 +50,7 @@ export const vocabularySlice = createSlice({
       });
   },
 });
+
+export const { selectWord } = vocabularySlice.actions;
 
 export default vocabularySlice.reducer;

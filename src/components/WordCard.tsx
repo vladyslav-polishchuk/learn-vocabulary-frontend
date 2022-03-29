@@ -14,6 +14,7 @@ import type { Word } from '../store/vocabularySlice';
 
 interface WordProps {
   word: Word;
+  learnMoreHandler: () => {};
 }
 
 const listenClick = (word: string) => {
@@ -34,7 +35,7 @@ const listenClick = (word: string) => {
   window.speechSynthesis.speak(utterThis);
 };
 
-export default function WordComponent({ word }: WordProps) {
+export default function WordCard({ word, learnMoreHandler }: WordProps) {
   const title = (
     <Stack direction="row" spacing={1}>
       {word.value}
@@ -51,7 +52,7 @@ export default function WordComponent({ word }: WordProps) {
     <Card>
       <CardHeader title={title} />
       <CardActions disableSpacing>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={learnMoreHandler}>
           Learn more
         </Button>
 
