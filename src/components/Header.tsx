@@ -32,7 +32,7 @@ export default function Header() {
   return (
     <AppBar position="fixed">
       <Container>
-        <Toolbar variant="dense" sx={{ height: '56px' }}>
+        <Toolbar variant="dense" sx={{ height: '56px' }} disableGutters>
           <Typography
             variant="h6"
             color="inherit"
