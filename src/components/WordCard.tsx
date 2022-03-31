@@ -15,6 +15,7 @@ import type { Word } from '../store/vocabularySlice';
 interface WordProps {
   word: Word;
   learnMoreHandler: () => {};
+  toggleLearnedCLick: (word: string) => {};
 }
 
 const listenClick = (word: string) => {
@@ -35,7 +36,11 @@ const listenClick = (word: string) => {
   window.speechSynthesis.speak(utterThis);
 };
 
-export default function WordCard({ word, learnMoreHandler }: WordProps) {
+export default function WordCard({
+  word,
+  learnMoreHandler,
+  toggleLearnedCLick,
+}: WordProps) {
   const title = (
     <Stack direction="row" spacing={1}>
       {word.value}
@@ -65,7 +70,7 @@ export default function WordCard({ word, learnMoreHandler }: WordProps) {
           </IconButton>
         </Tooltip>
         <Tooltip title="Mark as learned">
-          <IconButton>
+          <IconButton onClick={() => toggleLearnedCLick(word.value)}>
             <MerkLearnedIcon />
           </IconButton>
         </Tooltip>

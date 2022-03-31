@@ -1,7 +1,7 @@
 import { LibraryBooks, AccountCircle } from '@mui/icons-material';
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   AppBar,
   Toolbar,
@@ -14,9 +14,13 @@ import {
   MenuItem,
 } from '@mui/material';
 
-const settings = ['Profile', 'Logout'];
+const settings = [
+  { label: 'Profile', page: '/profile' },
+  { label: 'Logout', page: '/logout' },
+];
 
 export default function Header() {
+  const navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -77,8 +81,15 @@ export default function Header() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem
+                  key={setting.label}
+                  onClick={() => {
+                    navigate(setting.page);
+
+                    handleCloseUserMenu();
+                  }}
+                >
+                  <Typography textAlign="center">{setting.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>

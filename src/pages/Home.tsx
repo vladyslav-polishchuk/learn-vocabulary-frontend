@@ -18,7 +18,11 @@ import {
 import { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
-import { selectFile, selectWord } from '../store/vocabularySlice';
+import {
+  markAsLearned,
+  selectFile,
+  selectWord,
+} from '../store/vocabularySlice';
 import Spinner from '../components/Spinner';
 import WordCard from '../components/WordCard';
 import WordDialog from '../components/WordDialog';
@@ -36,7 +40,7 @@ export default function Home() {
     0 + (search ? 1 : 0) + (minLength ? 1 : 0) + (maxLength ? 1 : 0);
 
   const dispatch = useDispatch();
-  const { fileName, words, selectedWord, status } = useSelector(
+  const { fileName, words, selectedWord, status, user } = useSelector(
     (state: RootState) => state.vocabulary
   );
 
@@ -89,11 +93,13 @@ export default function Home() {
     );
   }
 
+  const learnedWordsSet = new Set(user.learnedWords);
   const filteredWords = words.filter((word) => {
     const minLengthNum = parseInt(minLength ?? '') || 0;
     const maxLengthNum = parseInt(maxLength ?? '') || 20;
 
     return (
+      !learnedWordsSet.has(word.value) &&
       word.value.length >= minLengthNum &&
       word.value.length <= maxLengthNum &&
       word.value.includes(search)
@@ -107,6 +113,7 @@ export default function Home() {
       <WordCard
         word={word}
         learnMoreHandler={() => dispatch(selectWord(word))}
+        toggleLearnedCLick={() => dispatch(markAsLearned(word.value))}
       ></WordCard>
     </Grid>
   ));

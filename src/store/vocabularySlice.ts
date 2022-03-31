@@ -6,10 +6,16 @@ export interface Word {
   frequency: number;
 }
 
+export interface User {
+  selectedWord: Word | null;
+  learnedWords: string[];
+}
+
 export interface VocabularyState {
   fileName: string;
   words: Word[];
   selectedWord: Word | null;
+  user: User;
   status: 'idle' | 'loading' | 'failed';
 }
 
@@ -18,6 +24,30 @@ const initialState: VocabularyState = {
   words: [],
   selectedWord: null,
   status: 'idle',
+  user: {
+    selectedWord: null,
+    learnedWords: [
+      'be',
+      'am',
+      'are',
+      'been',
+      'being',
+      'is',
+      'was',
+      'were',
+      'i',
+      'you',
+      'the',
+      'a',
+      'an',
+      'to',
+      'it',
+      'no',
+      'not',
+      'that',
+      'and',
+    ],
+  },
 };
 
 export const selectFile = createAsyncThunk(
@@ -37,6 +67,14 @@ export const vocabularySlice = createSlice({
     selectWord: (state, action) => {
       state.selectedWord = action.payload;
     },
+    markAsLearned: (state, action) => {
+      state.user.learnedWords.push(action.payload);
+    },
+    removeFromLearned: (state, action) => {
+      state.user.learnedWords = state.user.learnedWords.filter(
+        (word) => word !== action.payload
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -51,6 +89,7 @@ export const vocabularySlice = createSlice({
   },
 });
 
-export const { selectWord } = vocabularySlice.actions;
+export const { selectWord, markAsLearned, removeFromLearned } =
+  vocabularySlice.actions;
 
 export default vocabularySlice.reducer;
