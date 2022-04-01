@@ -11,15 +11,13 @@ import {
   Tooltip,
   Collapse,
   Badge,
-  Pagination,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { selectWord, removeFromLearned } from '../store/vocabularySlice';
 import WordCard from '../components/WordCard';
 import WordDialog from '../components/WordDialog';
-
-const pageSize = 50;
+import Pagination from '../components/pure/Pagination';
 
 export default function Home() {
   const [filterOpened, setFilterOpened] = React.useState(false);
@@ -27,6 +25,7 @@ export default function Home() {
   const [maxLength, setMaxLength] = React.useState<string>('');
   const [search, setSearch] = React.useState<string>('');
   const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(25);
 
   const badgeCount =
     0 + (search ? 1 : 0) + (minLength ? 1 : 0) + (maxLength ? 1 : 0);
@@ -93,9 +92,13 @@ export default function Home() {
 
           <Pagination
             page={page}
-            count={numberOfPages}
-            color="primary"
-            onChange={(e, newPage) => setPage(newPage)}
+            numberOfPages={numberOfPages}
+            defaultPageSize={pageSize}
+            setPage={(newPage) => setPage(newPage)}
+            setPageSize={(newSize) => {
+              setPageSize(newSize);
+              setPage(1);
+            }}
           />
         </Toolbar>
 
