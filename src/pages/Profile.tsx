@@ -51,7 +51,7 @@ export default function Home() {
   const wordNodes = filteredWords.slice(x, x + pageSize).map((word) => (
     <Grid item key={word} xs={4}>
       <WordCard
-        word={{ value: word, frequency: 0 }}
+        word={{ value: word, count: 0 }}
         learnMoreHandler={() => dispatch(selectWord({ value: word }))}
         toggleLearnedCLick={() => dispatch(removeFromLearned(word))}
       ></WordCard>

@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import getWordsByFrequency from '../businessLogic/getWordsByFrequency';
 
 export interface Word {
   value: string;
-  frequency: number;
+  count: number;
 }
 
 export interface User {
@@ -54,7 +53,15 @@ export const selectFile = createAsyncThunk(
   'vocabulary/selectFile',
   async (file: File) => {
     const fileName = file.name;
-    const words = await getWordsByFrequency(file);
+
+    const formData = new FormData();
+    formData.append('book', file);
+
+    const response = await fetch('http://localhost:8080/book', {
+      method: 'POST',
+      body: formData,
+    });
+    const words = await response.json();
 
     return { fileName, words };
   }

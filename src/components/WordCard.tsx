@@ -45,7 +45,7 @@ export default function WordCard({
     <Stack direction="row" spacing={1}>
       {word.value}
       <Chip
-        label={word.frequency}
+        label={word.count}
         color="primary"
         variant="outlined"
         sx={{ ml: 'auto' }}
