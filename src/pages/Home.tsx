@@ -22,7 +22,7 @@ import {
   selectFile,
   selectWord,
 } from '../store/vocabularySlice';
-import Spinner from '../components/Spinner';
+import Spinner from '../components/pure/Spinner';
 import WordCard from '../components/WordCard';
 import WordDialog from '../components/WordDialog';
 import Pagination from '../components/pure/Pagination';
