@@ -1,30 +1,23 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-export interface Word {
-  value: string;
-  count: number;
-}
-
 export interface User {
-  selectedWord: Word | null;
   learnedWords: string[];
 }
 
 export interface VocabularyState {
-  fileName: string;
+  selectedBook: Book | null;
   words: Word[];
-  selectedWord: Word | null;
+  books: Book[];
   user: User;
   status: 'idle' | 'loading' | 'failed';
 }
 
 const initialState: VocabularyState = {
-  fileName: '',
+  selectedBook: null,
   words: [],
-  selectedWord: null,
+  books: [],
   status: 'idle',
   user: {
-    selectedWord: null,
     learnedWords: [
       'be',
       'am',
@@ -52,8 +45,6 @@ const initialState: VocabularyState = {
 export const selectFile = createAsyncThunk(
   'vocabulary/selectFile',
   async (file: File) => {
-    const fileName = file.name;
-
     const formData = new FormData();
     formData.append('book', file);
 
@@ -61,9 +52,34 @@ export const selectFile = createAsyncThunk(
       method: 'POST',
       body: formData,
     });
-    const words = await response.json();
+    const selectedBook = await response.json();
 
-    return { fileName, words };
+    return { selectedBook };
+  }
+);
+
+export const getWords = createAsyncThunk('vocabulary/getWords', async () => {
+  const response = await fetch(`http://localhost:8080/word`);
+  const words = await response.json();
+
+  return { words };
+});
+
+export const getBooks = createAsyncThunk('vocabulary/getBooks', async () => {
+  const response = await fetch('http://localhost:8080/book');
+  const books = await response.json();
+
+  return { books };
+});
+
+export const getBook = createAsyncThunk(
+  'vocabulary/getBook',
+  async (bookId: string) => {
+    const queryParams = bookId ? `?id=${bookId}` : '';
+    const response = await fetch(`http://localhost:8080/book${queryParams}`);
+    const selectedBook = await response.json();
+
+    return { selectedBook };
   }
 );
 
@@ -71,9 +87,6 @@ export const vocabularySlice = createSlice({
   name: 'vocabulary',
   initialState,
   reducers: {
-    selectWord: (state, action) => {
-      state.selectedWord = action.payload;
-    },
     markAsLearned: (state, action) => {
       state.user.learnedWords.push(action.payload);
     },
@@ -90,13 +103,38 @@ export const vocabularySlice = createSlice({
       })
       .addCase(selectFile.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.fileName = action.payload.fileName;
+        state.books.push(action.payload.selectedBook);
+      });
+
+    builder
+      .addCase(getWords.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(getWords.fulfilled, (state, action) => {
+        state.status = 'idle';
         state.words = action.payload.words;
+      });
+
+    builder
+      .addCase(getBooks.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(getBooks.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.books = action.payload.books;
+      });
+
+    builder
+      .addCase(getBook.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(getBook.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.selectedBook = action.payload.selectedBook;
       });
   },
 });
 
-export const { selectWord, markAsLearned, removeFromLearned } =
-  vocabularySlice.actions;
+export const { markAsLearned, removeFromLearned } = vocabularySlice.actions;
 
 export default vocabularySlice.reducer;

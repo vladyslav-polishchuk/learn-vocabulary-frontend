@@ -6,11 +6,10 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import type { Word } from '../store/vocabularySlice';
 
 interface WordDialogProps {
   word: Word | null;
-  onClose: () => {};
+  onClose: () => unknown;
 }
 
 export default function WordDialog({ word, onClose }: WordDialogProps) {

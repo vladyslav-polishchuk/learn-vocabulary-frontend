@@ -2,6 +2,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Container, Grid } from '@mui/material';
 import Header from './components/Header';
 import HomePage from './pages/Home';
+import WordsPage from './pages/Words';
+import BooksPage from './pages/Books';
+import BookPage from './pages/Book';
 import ProfilePage from './pages/Profile';
 import NotFoundPage from './pages/NotFound';
 
@@ -16,6 +19,9 @@ export default function App() {
           <Container sx={{ mt: '48px' }}>
             <Routes>
               <Route path="/" element={<HomePage />}></Route>
+              <Route path="/words" element={<WordsPage />}></Route>
+              <Route path="/books" element={<BooksPage />}></Route>
+              <Route path="/books/:bookId" element={<BookPage />}></Route>
               <Route path="/profile" element={<ProfilePage />}></Route>
               <Route path="*" element={<NotFoundPage />}></Route>
             </Routes>

@@ -10,11 +10,10 @@ import {
 import IconButton from '@mui/material/IconButton';
 import ListenIcon from '@mui/icons-material/VolumeUp';
 import MerkLearnedIcon from '@mui/icons-material/Done';
-import type { Word } from '../store/vocabularySlice';
 
 interface WordProps {
   word: Word;
-  learnMoreHandler: () => {};
+  learnMoreHandler: () => unknown;
   toggleLearnedCLick: (word: string) => {};
 }
 
@@ -44,12 +43,14 @@ export default function WordCard({
   const title = (
     <Stack direction="row" spacing={1}>
       {word.value}
-      <Chip
-        label={word.count}
-        color="primary"
-        variant="outlined"
-        sx={{ ml: 'auto' }}
-      />
+      {word.count && (
+        <Chip
+          label={word.count}
+          color="primary"
+          variant="outlined"
+          sx={{ ml: 'auto' }}
+        />
+      )}
     </Stack>
   );
 
