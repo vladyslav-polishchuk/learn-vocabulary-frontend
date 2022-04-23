@@ -21,8 +21,7 @@ export default function BookCard({ book, onBookSelect }: BookCardProps) {
       {book.name}
     </Stack>
   );
-  const downloadUrl = `http://localhost:8080/be6dc86e0e1cdfb9866a0df07a9cd5f0/Holms.txt`;
-  //const downloadUrl = `./uploads/${book.hash}/${book.name}`;
+  const downloadUrl = `http://localhost:8080/book?id=${book.hash}&download=true`;
 
   return (
     <Card>
