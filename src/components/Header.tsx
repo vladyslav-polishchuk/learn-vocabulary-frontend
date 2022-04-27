@@ -17,6 +17,7 @@ import {
 const settings = [
   { label: 'Profile', page: '/profile' },
   { label: 'Logout', page: '/logout' },
+  { label: 'Login', page: '/login' },
 ];
 
 export default function Header() {
@@ -52,7 +53,7 @@ export default function Header() {
                 mr: 1,
               }}
             />
-            Vocabulary
+            Bookabulary
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

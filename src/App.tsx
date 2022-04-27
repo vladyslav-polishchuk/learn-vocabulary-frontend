@@ -7,6 +7,8 @@ import BooksPage from './pages/Books';
 import BookPage from './pages/Book';
 import ProfilePage from './pages/Profile';
 import NotFoundPage from './pages/NotFound';
+import LoginPage from './pages/Login';
+import RegisterPage from './pages/Register';
 
 export default function App() {
   return (
@@ -23,6 +25,8 @@ export default function App() {
               <Route path="/books" element={<BooksPage />}></Route>
               <Route path="/books/:bookId" element={<BookPage />}></Route>
               <Route path="/profile" element={<ProfilePage />}></Route>
+              <Route path="/login" element={<LoginPage />}></Route>
+              <Route path="/register" element={<RegisterPage />}></Route>
               <Route path="*" element={<NotFoundPage />}></Route>
             </Routes>
           </Container>
