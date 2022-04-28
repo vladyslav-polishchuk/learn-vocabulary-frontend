@@ -34,7 +34,23 @@ export default function LoginPage() {
       remember: true,
     },
     validationSchema,
-    onSubmit: () => navigate('/books'),
+    onSubmit: async ({ email, password }) => {
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('password', password);
+
+      const response = await fetch('http://localhost:8080/login', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+      alert(result);
+
+      navigate('/dashboard', { replace: true });
+
+      navigate('/books');
+    },
   });
   const { errors, touched, values, handleSubmit, getFieldProps } = formik;
 

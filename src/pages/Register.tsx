@@ -19,10 +19,6 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   const validationSchema = Yup.object().shape({
-    lastName: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Last name required'),
     email: Yup.string()
       .email('Email must be a valid email address')
       .required('Email is required'),
@@ -36,9 +32,30 @@ export default function RegisterPage() {
       confirmPassword: '',
     },
     validationSchema,
-    onSubmit: () => navigate('/dashboard', { replace: true }),
+    onSubmit: async ({ email, password }) => {
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('password', password);
+
+      const response = await fetch('http://localhost:8080/register', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+      alert(result);
+
+      navigate('/dashboard', { replace: true });
+    },
   });
   const { errors, touched, handleSubmit, getFieldProps } = formik;
+  const showPasswordButton = (
+    <InputAdornment position="end">
+      <IconButton edge="end" onClick={() => setShowPassword((prev) => !prev)}>
+        {showPassword ? <Visibility /> : <VisibilityOff />}
+      </IconButton>
+    </InputAdornment>
+  );
 
   return (
     <AuthControl
@@ -64,18 +81,7 @@ export default function RegisterPage() {
               type={showPassword ? 'text' : 'password'}
               label="Password"
               {...getFieldProps('password')}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      edge="end"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
+              InputProps={{ endAdornment: showPasswordButton }}
               error={Boolean(touched.password && errors.password)}
               helperText={touched.password && errors.password}
             />
@@ -85,19 +91,8 @@ export default function RegisterPage() {
               autoComplete="current-password"
               type={showPassword ? 'text' : 'password'}
               label="Confirm Password"
-              {...getFieldProps('password')}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      edge="end"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
+              {...getFieldProps('confirmPassword')}
+              InputProps={{ endAdornment: showPasswordButton }}
               error={Boolean(touched.password && errors.password)}
               helperText={touched.password && errors.password}
             />
