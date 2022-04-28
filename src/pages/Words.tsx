@@ -16,7 +16,7 @@ export default function Words() {
     dispatch(getWords());
   }, [dispatch]);
 
-  const learnedWordsSet = new Set(user.learnedWords);
+  const learnedWordsSet = new Set(user?.learnedWords ?? []);
   const filteredWords = words.filter((word) => {
     return !learnedWordsSet.has(word.value);
   });
@@ -31,7 +31,7 @@ export default function Words() {
         variant="h2"
         sx={{ fontWeight: 'bold' }}
       >
-        All words from database
+        Frequency List
       </Typography>
 
       <WordList words={filteredWords} />

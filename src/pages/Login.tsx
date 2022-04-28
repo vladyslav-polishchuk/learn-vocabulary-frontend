@@ -15,9 +15,12 @@ import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 import AuthControl from '../components/AuthControl';
+import { useDispatch } from 'react-redux';
+import { login } from '../store/vocabularySlice';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const validationSchema = yup.object({
@@ -35,19 +38,7 @@ export default function LoginPage() {
     },
     validationSchema,
     onSubmit: async ({ email, password }) => {
-      const formData = new FormData();
-      formData.append('email', email);
-      formData.append('password', password);
-
-      const response = await fetch('http://localhost:8080/login', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const result = await response.json();
-      alert(result);
-
-      navigate('/dashboard', { replace: true });
+      dispatch(login({ email, password }));
 
       navigate('/books');
     },

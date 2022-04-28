@@ -9,12 +9,12 @@ import {
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import ListenIcon from '@mui/icons-material/VolumeUp';
-import MerkLearnedIcon from '@mui/icons-material/Done';
+import type { ReactNode } from 'react';
 
 interface WordProps {
   word: Word;
   learnMoreHandler: () => unknown;
-  toggleLearnedCLick: (word: string) => {};
+  children: ReactNode | ReactNode[];
 }
 
 const listenClick = (word: string) => {
@@ -36,9 +36,9 @@ const listenClick = (word: string) => {
 };
 
 export default function WordCard({
+  children,
   word,
   learnMoreHandler,
-  toggleLearnedCLick,
 }: WordProps) {
   const title = (
     <Stack direction="row" spacing={1}>
@@ -70,11 +70,8 @@ export default function WordCard({
             <ListenIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Mark as learned">
-          <IconButton onClick={() => toggleLearnedCLick(word.value)}>
-            <MerkLearnedIcon />
-          </IconButton>
-        </Tooltip>
+
+        {children}
       </CardActions>
     </Card>
   );

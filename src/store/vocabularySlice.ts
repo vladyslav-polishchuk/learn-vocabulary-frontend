@@ -1,6 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+interface Credentials {
+  email: string;
+  password: string;
+}
+
 export interface User {
+  email: string;
+  token: string;
   learnedWords: string[];
 }
 
@@ -8,7 +15,7 @@ export interface VocabularyState {
   selectedBook: Book | null;
   words: Word[];
   books: Book[];
-  user: User;
+  user: User | null;
   status: 'idle' | 'loading' | 'failed';
 }
 
@@ -17,29 +24,7 @@ const initialState: VocabularyState = {
   words: [],
   books: [],
   status: 'idle',
-  user: {
-    learnedWords: [
-      'be',
-      'am',
-      'are',
-      'been',
-      'being',
-      'is',
-      'was',
-      'were',
-      'i',
-      'you',
-      'the',
-      'a',
-      'an',
-      'to',
-      'it',
-      'no',
-      'not',
-      'that',
-      'and',
-    ],
-  },
+  user: null,
 };
 
 export const selectFile = createAsyncThunk(
@@ -83,17 +68,53 @@ export const getBook = createAsyncThunk(
   }
 );
 
+export const login = createAsyncThunk(
+  'vocabulary/login',
+  async ({ email, password }: Credentials) => {
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
+
+    const response = await fetch('http://localhost:8080/login', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const result = await response.json();
+    return result;
+  }
+);
+
+export const register = createAsyncThunk(
+  'vocabulary/register',
+  async ({ email, password }: Credentials) => {
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
+
+    const response = await fetch('http://localhost:8080/register', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const result = await response.json();
+    return result;
+  }
+);
+
 export const vocabularySlice = createSlice({
   name: 'vocabulary',
   initialState,
   reducers: {
     markAsLearned: (state, action) => {
-      state.user.learnedWords.push(action.payload);
+      state.user?.learnedWords.push(action.payload);
     },
     removeFromLearned: (state, action) => {
-      state.user.learnedWords = state.user.learnedWords.filter(
-        (word) => word !== action.payload
-      );
+      if (state.user) {
+        state.user.learnedWords = state.user.learnedWords.filter(
+          (word) => word !== action.payload
+        );
+      }
     },
   },
   extraReducers: (builder) => {
@@ -131,6 +152,24 @@ export const vocabularySlice = createSlice({
       .addCase(getBook.fulfilled, (state, action) => {
         state.status = 'idle';
         state.selectedBook = action.payload.selectedBook;
+      });
+
+    builder
+      .addCase(login.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.user = action.payload;
+      });
+
+    builder
+      .addCase(register.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.user = action.payload;
       });
   },
 });

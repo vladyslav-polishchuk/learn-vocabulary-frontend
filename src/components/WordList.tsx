@@ -1,4 +1,4 @@
-import { FilterAlt, FilterAltOff } from '@mui/icons-material';
+import { FilterAlt, FilterAltOff, Done } from '@mui/icons-material';
 
 import React from 'react';
 import {
@@ -36,7 +36,7 @@ export default function WordList({ words }: WordListProps) {
     0 + (search ? 1 : 0) + (minLength ? 1 : 0) + (maxLength ? 1 : 0);
 
   const dispatch = useDispatch();
-  const { status } = useSelector((state: RootState) => state.vocabulary);
+  const { status, user } = useSelector((state: RootState) => state.vocabulary);
 
   const filteredWords = words.filter((word) => {
     const minLengthNum = parseInt(minLength ?? '') || 0;
@@ -53,11 +53,13 @@ export default function WordList({ words }: WordListProps) {
   const x = (page - 1) * pageSize;
   const wordNodes = filteredWords.slice(x, x + pageSize).map((word) => (
     <Grid item key={word.value} xs={4}>
-      <WordCard
-        word={word}
-        learnMoreHandler={() => setSelectedWord(word)}
-        toggleLearnedCLick={() => dispatch(markAsLearned(word.value))}
-      ></WordCard>
+      <WordCard word={word} learnMoreHandler={() => setSelectedWord(word)}>
+        <Tooltip title="Mark as learned">
+          <IconButton onClick={() => dispatch(markAsLearned(word.value))}>
+            <Done />
+          </IconButton>
+        </Tooltip>
+      </WordCard>
     </Grid>
   ));
 

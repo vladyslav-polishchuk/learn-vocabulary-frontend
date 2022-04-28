@@ -13,9 +13,12 @@ import {
 import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import AuthControl from '../components/AuthControl';
+import { useDispatch } from 'react-redux';
+import { register } from '../store/vocabularySlice';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const validationSchema = Yup.object().shape({
@@ -33,19 +36,9 @@ export default function RegisterPage() {
     },
     validationSchema,
     onSubmit: async ({ email, password }) => {
-      const formData = new FormData();
-      formData.append('email', email);
-      formData.append('password', password);
+      dispatch(register({ email, password }));
 
-      const response = await fetch('http://localhost:8080/register', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const result = await response.json();
-      alert(result);
-
-      navigate('/dashboard', { replace: true });
+      navigate('/books', { replace: true });
     },
   });
   const { errors, touched, handleSubmit, getFieldProps } = formik;

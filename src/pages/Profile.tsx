@@ -5,6 +5,8 @@ import WordList from '../components/WordList';
 
 export default function Profile() {
   const { user } = useSelector((state: RootState) => state.vocabulary);
+  if (!user) return null;
+
   const words = user.learnedWords.map((word) => ({
     value: word,
   }));

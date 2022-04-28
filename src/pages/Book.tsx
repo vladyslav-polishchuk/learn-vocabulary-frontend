@@ -21,7 +21,7 @@ export default function BookPage() {
 
   if (!selectedBook) return null;
 
-  const learnedWordsSet = new Set(user.learnedWords);
+  const learnedWordsSet = new Set(user?.learnedWords ?? []);
   const filteredWords = selectedBook.words.filter((word) => {
     return !learnedWordsSet.has(word.value);
   });
