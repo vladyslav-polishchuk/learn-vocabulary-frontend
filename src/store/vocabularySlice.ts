@@ -36,6 +36,7 @@ export const selectFile = createAsyncThunk(
     const response = await fetch('http://localhost:8080/book', {
       method: 'POST',
       body: formData,
+      credentials: 'include',
     });
     const selectedBook = await response.json();
 
@@ -78,6 +79,7 @@ export const login = createAsyncThunk(
     const response = await fetch('http://localhost:8080/login', {
       method: 'POST',
       body: formData,
+      credentials: 'include',
     });
 
     const result = await response.json();
