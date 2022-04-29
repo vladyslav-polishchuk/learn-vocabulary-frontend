@@ -1,5 +1,4 @@
 import { LibraryBooks, AccountCircle } from '@mui/icons-material';
-
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -12,27 +11,51 @@ import {
   IconButton,
   Tooltip,
   MenuItem,
+  Button,
 } from '@mui/material';
-
-const settings = [
-  { label: 'Profile', page: '/profile' },
-  { label: 'Logout', page: '/logout' },
-  { label: 'Login', page: '/login' },
-];
+import { logout } from '../api';
+import { useDispatch, useSelector } from 'react-redux';
+import type { RootState } from '../store';
+import { setUser } from '../store/vocabularySlice';
 
 export default function Header() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+  const { user } = useSelector((state: RootState) => state.vocabulary);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const settings = [
+    { label: 'Profile', click: () => navigate('/profile') },
+    {
+      label: 'Logout',
+      click: async () => {
+        await logout();
+
+        dispatch(setUser(null));
+      },
+    },
+  ];
+
+  const loginOrProfileButton = user ? (
+    <Tooltip title="Open settings">
+      <IconButton size="large" onClick={handleOpenUserMenu} color="inherit">
+        <AccountCircle />
+      </IconButton>
+    </Tooltip>
+  ) : (
+    <Button color="inherit" onClick={() => navigate('/login')}>
+      Log in
+    </Button>
+  );
 
   return (
     <AppBar position="fixed">
@@ -56,15 +79,7 @@ export default function Header() {
             Bookabulary ({process.env.REACT_APP_ENV || 'dev'})
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton
-                size="large"
-                onClick={handleOpenUserMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </Tooltip>
+            {loginOrProfileButton}
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -85,7 +100,7 @@ export default function Header() {
                 <MenuItem
                   key={setting.label}
                   onClick={() => {
-                    navigate(setting.page);
+                    setting.click();
 
                     handleCloseUserMenu();
                   }}

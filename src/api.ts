@@ -45,3 +45,9 @@ export const register = async (email: string, password: string) => {
     body: formData,
   });
 };
+
+export const logout = async () => {
+  return await sendRequest(`logout`, {
+    method: 'POST',
+  });
+};
