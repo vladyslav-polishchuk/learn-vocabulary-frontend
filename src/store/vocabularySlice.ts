@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { serverUrl } from '../settings';
 
 interface Credentials {
   email: string;
@@ -33,7 +34,7 @@ export const selectFile = createAsyncThunk(
     const formData = new FormData();
     formData.append('book', file);
 
-    const response = await fetch('http://localhost:8080/book', {
+    const response = await fetch(`${serverUrl}/book`, {
       method: 'POST',
       body: formData,
       credentials: 'include',
@@ -45,14 +46,14 @@ export const selectFile = createAsyncThunk(
 );
 
 export const getWords = createAsyncThunk('vocabulary/getWords', async () => {
-  const response = await fetch(`http://localhost:8080/word`);
+  const response = await fetch(`${serverUrl}/word`);
   const words = await response.json();
 
   return { words };
 });
 
 export const getBooks = createAsyncThunk('vocabulary/getBooks', async () => {
-  const response = await fetch('http://localhost:8080/book');
+  const response = await fetch(`${serverUrl}/book`);
   const books = await response.json();
 
   return { books };
@@ -62,7 +63,7 @@ export const getBook = createAsyncThunk(
   'vocabulary/getBook',
   async (bookId: string) => {
     const queryParams = bookId ? `?id=${bookId}` : '';
-    const response = await fetch(`http://localhost:8080/book${queryParams}`);
+    const response = await fetch(`${serverUrl}/book${queryParams}`);
     const selectedBook = await response.json();
 
     return { selectedBook };
@@ -76,7 +77,7 @@ export const login = createAsyncThunk(
     formData.append('email', email);
     formData.append('password', password);
 
-    const response = await fetch('http://localhost:8080/login', {
+    const response = await fetch(`${serverUrl}/login`, {
       method: 'POST',
       body: formData,
       credentials: 'include',
@@ -94,9 +95,10 @@ export const register = createAsyncThunk(
     formData.append('email', email);
     formData.append('password', password);
 
-    const response = await fetch('http://localhost:8080/register', {
+    const response = await fetch(`${serverUrl}/register`, {
       method: 'POST',
       body: formData,
+      credentials: 'include',
     });
 
     const result = await response.json();

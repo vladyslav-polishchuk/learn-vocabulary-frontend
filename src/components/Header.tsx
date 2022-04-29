@@ -53,7 +53,7 @@ export default function Header() {
                 mr: 1,
               }}
             />
-            Bookabulary
+            Bookabulary ({process.env.REACT_APP_ENV || 'dev'})
           </Typography>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

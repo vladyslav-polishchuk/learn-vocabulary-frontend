@@ -9,6 +9,7 @@ import {
 import IconButton from '@mui/material/IconButton';
 import ShareIcon from '@mui/icons-material/Share';
 import DownloadIcon from '@mui/icons-material/Download';
+import { serverUrl } from '../settings';
 
 interface BookCardProps {
   book: Book;
@@ -21,7 +22,7 @@ export default function BookCard({ book, onBookSelect }: BookCardProps) {
       {book.name}
     </Stack>
   );
-  const downloadUrl = `http://localhost:8080/book?id=${book.hash}&download=true`;
+  const downloadUrl = `${serverUrl}/book?id=${book.hash}&download=true`;
 
   return (
     <Card>
