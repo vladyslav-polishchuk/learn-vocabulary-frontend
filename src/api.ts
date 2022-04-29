@@ -51,3 +51,7 @@ export const logout = async () => {
     method: 'POST',
   });
 };
+
+export const getCurrentUser = async () => {
+  return await sendRequest(`user/current`);
+};

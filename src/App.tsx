@@ -10,8 +10,19 @@ import NotFoundPage from './pages/NotFound';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import ErrorBar from './components/ErrowBar';
+import { useEffect } from 'react';
+import { getCurrentUser } from './api';
+import { useDispatch } from 'react-redux';
+import { setUser } from './store/vocabularySlice';
 
 export default function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    getCurrentUser().then((user) => {
+      dispatch(setUser(user));
+    });
+  });
+
   return (
     <BrowserRouter>
       <Grid container direction="column">
