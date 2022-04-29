@@ -9,6 +9,7 @@ import ProfilePage from './pages/Profile';
 import NotFoundPage from './pages/NotFound';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
+import ErrorBar from './components/ErrowBar';
 
 export default function App() {
   return (
@@ -19,6 +20,8 @@ export default function App() {
         </Grid>
         <Grid item sx={{ my: 5 }}>
           <Container sx={{ mt: '48px' }}>
+            <ErrorBar />
+
             <Routes>
               <Route path="/" element={<HomePage />}></Route>
               <Route path="/words" element={<WordsPage />}></Route>

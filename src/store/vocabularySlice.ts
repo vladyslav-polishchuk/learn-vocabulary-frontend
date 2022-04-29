@@ -1,11 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { serverUrl } from '../settings';
 
-interface Credentials {
-  email: string;
-  password: string;
-}
-
 export interface User {
   email: string;
   token: string;
@@ -17,6 +12,7 @@ export interface VocabularyState {
   words: Word[];
   books: Book[];
   user: User | null;
+  error: string | null;
   status: 'idle' | 'loading' | 'failed';
 }
 
@@ -26,6 +22,7 @@ const initialState: VocabularyState = {
   books: [],
   status: 'idle',
   user: null,
+  error: null,
 };
 
 export const selectFile = createAsyncThunk(
@@ -70,42 +67,6 @@ export const getBook = createAsyncThunk(
   }
 );
 
-export const login = createAsyncThunk(
-  'vocabulary/login',
-  async ({ email, password }: Credentials) => {
-    const formData = new FormData();
-    formData.append('email', email);
-    formData.append('password', password);
-
-    const response = await fetch(`${serverUrl}/login`, {
-      method: 'POST',
-      body: formData,
-      credentials: 'include',
-    });
-
-    const result = await response.json();
-    return result;
-  }
-);
-
-export const register = createAsyncThunk(
-  'vocabulary/register',
-  async ({ email, password }: Credentials) => {
-    const formData = new FormData();
-    formData.append('email', email);
-    formData.append('password', password);
-
-    const response = await fetch(`${serverUrl}/register`, {
-      method: 'POST',
-      body: formData,
-      credentials: 'include',
-    });
-
-    const result = await response.json();
-    return result;
-  }
-);
-
 export const vocabularySlice = createSlice({
   name: 'vocabulary',
   initialState,
@@ -119,6 +80,12 @@ export const vocabularySlice = createSlice({
           (word) => word !== action.payload
         );
       }
+    },
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -157,27 +124,10 @@ export const vocabularySlice = createSlice({
         state.status = 'idle';
         state.selectedBook = action.payload.selectedBook;
       });
-
-    builder
-      .addCase(login.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(login.fulfilled, (state, action) => {
-        state.status = 'idle';
-        state.user = action.payload;
-      });
-
-    builder
-      .addCase(register.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(register.fulfilled, (state, action) => {
-        state.status = 'idle';
-        state.user = action.payload;
-      });
   },
 });
 
-export const { markAsLearned, removeFromLearned } = vocabularySlice.actions;
+export const { markAsLearned, removeFromLearned, setUser, setError } =
+  vocabularySlice.actions;
 
 export default vocabularySlice.reducer;

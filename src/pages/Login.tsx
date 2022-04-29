@@ -16,7 +16,8 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 import AuthControl from '../components/AuthControl';
 import { useDispatch } from 'react-redux';
-import { login } from '../store/vocabularySlice';
+import { login } from '../api';
+import { setUser, setError } from '../store/vocabularySlice';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -38,9 +39,13 @@ export default function LoginPage() {
     },
     validationSchema,
     onSubmit: async ({ email, password }) => {
-      dispatch(login({ email, password }));
-
-      navigate('/books');
+      try {
+        const user = await login(email, password);
+        dispatch(setUser(user));
+        navigate('/books');
+      } catch (e: any) {
+        dispatch(setError(e.message));
+      }
     },
   });
   const { errors, touched, values, handleSubmit, getFieldProps } = formik;

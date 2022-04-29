@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store';
 import WordList from '../components/WordList';
+import type { RootState } from '../store';
 
 export default function Profile() {
   const { user } = useSelector((state: RootState) => state.vocabulary);

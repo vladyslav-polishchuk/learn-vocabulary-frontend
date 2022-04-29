@@ -14,7 +14,8 @@ import * as Yup from 'yup';
 import { useFormik, Form, FormikProvider } from 'formik';
 import AuthControl from '../components/AuthControl';
 import { useDispatch } from 'react-redux';
-import { register } from '../store/vocabularySlice';
+import { setUser, setError } from '../store/vocabularySlice';
+import { register } from '../api';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
@@ -36,9 +37,13 @@ export default function RegisterPage() {
     },
     validationSchema,
     onSubmit: async ({ email, password }) => {
-      dispatch(register({ email, password }));
-
-      navigate('/books', { replace: true });
+      try {
+        const user = await register(email, password);
+        dispatch(setUser(user));
+        navigate('/books');
+      } catch (e: any) {
+        dispatch(setError(e.message));
+      }
     },
   });
   const { errors, touched, handleSubmit, getFieldProps } = formik;
