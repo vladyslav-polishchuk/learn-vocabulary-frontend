@@ -27,7 +27,7 @@ export default function BooksPage() {
 
   useEffect(() => {
     dispatch(getBooks());
-  }, []);
+  }, [dispatch]);
 
   const handleFiles = async (e: ChangeEvent) => {
     const input = e.target as HTMLInputElement;

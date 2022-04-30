@@ -17,7 +17,7 @@ export default function BookPage() {
 
   useEffect(() => {
     bookId && dispatch(getBook(bookId));
-  }, [bookId]);
+  }, [bookId, dispatch]);
 
   if (!selectedBook) return null;
 
