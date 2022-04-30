@@ -7,16 +7,28 @@ import {
   Button,
   Toolbar,
   Tooltip,
+  TextField,
 } from '@mui/material';
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectFile, getBooks } from '../store/vocabularySlice';
-import type { RootState } from '../store';
 import Spinner from '../components/pure/Spinner';
-import BookList from '../components/BookList';
+import Pagination from '../components/pure/Pagination';
+import BookCard from '../components/BookCard';
+import type { RootState } from '../store';
 
 export default function BooksPage() {
+  const [search, setSearch] = useState<string>('');
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(50);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getBooks());
+  }, []);
+
   const handleFiles = async (e: ChangeEvent) => {
     const input = e.target as HTMLInputElement;
     if (!input || !input.files) return;
@@ -24,16 +36,22 @@ export default function BooksPage() {
     const file = input.files[0];
     dispatch(selectFile(file));
   };
-
   const { books, user, status } = useSelector(
     (state: RootState) => state.vocabulary
   );
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    dispatch(getBooks());
-  }, []);
+  const filteredBooks = books.filter((book) => {
+    return book.name.toLowerCase().includes(search);
+  });
+  const numberOfPages = Math.ceil(filteredBooks.length / pageSize);
+  const x = (page - 1) * pageSize;
+  const bookNodes = filteredBooks.slice(x, x + pageSize).map((book) => (
+    <Grid item key={book.hash} xs={4}>
+      <BookCard
+        book={book}
+        onBookSelect={() => navigate(`/books/${book.hash}`)}
+      ></BookCard>
+    </Grid>
+  ));
 
   return (
     <Grid container>
@@ -47,33 +65,59 @@ export default function BooksPage() {
 
       <Box position="sticky">
         <Toolbar variant="dense" disableGutters sx={{ my: 2 }}>
-          <Tooltip title={user ? '' : 'You have to login to upload books'}>
-            <label htmlFor="contained-button-file">
-              <Input
-                id="contained-button-file"
-                type="file"
-                sx={{ display: 'none' }}
-                onChange={handleFiles}
-                disabled={!user}
-              />
-              <Button
-                variant="contained"
-                component="span"
-                fullWidth
-                disabled={!user}
-              >
-                <UploadFile sx={{ mr: 1 }} />
-                Pick File
-              </Button>
-            </label>
-          </Tooltip>
-        </Toolbar>
-      </Box>
+          <Box sx={{ flexGrow: '1', mx: 1 }}>
+            <Tooltip title={user ? '' : 'You have to login to upload books'}>
+              <label htmlFor="contained-button-file">
+                <Input
+                  id="contained-button-file"
+                  type="file"
+                  sx={{ display: 'none' }}
+                  onChange={handleFiles}
+                  disabled={!user}
+                  inputProps={{ accept: '.pdf,.txt' }}
+                />
+                <Button
+                  variant="contained"
+                  component="span"
+                  disabled={!user}
+                  size="large"
+                  sx={{ lineHeight: 1 }}
+                >
+                  <UploadFile sx={{ mr: 1 }} />
+                  Pick File
+                </Button>
+              </label>
+            </Tooltip>
 
-      <BookList
-        books={books}
-        onBookSelect={(bookId) => navigate(`/books/${bookId}`)}
-      />
+            <TextField
+              sx={{ mx: 1 }}
+              variant="outlined"
+              size="small"
+              label="Search"
+              value={search}
+              onChange={(e) => {
+                setSearch(e?.target?.value);
+                setPage(1);
+              }}
+            ></TextField>
+          </Box>
+
+          <Pagination
+            page={page}
+            numberOfPages={numberOfPages}
+            defaultPageSize={pageSize}
+            setPage={(newPage) => setPage(newPage)}
+            setPageSize={(newSize) => {
+              setPageSize(newSize);
+              setPage(1);
+            }}
+          />
+        </Toolbar>
+
+        <Grid container spacing={2}>
+          {bookNodes}
+        </Grid>
+      </Box>
     </Grid>
   );
 }

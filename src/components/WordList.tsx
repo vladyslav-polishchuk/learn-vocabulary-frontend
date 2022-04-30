@@ -29,7 +29,7 @@ export default function WordList({ words }: WordListProps) {
   const [maxLength, setMaxLength] = React.useState<string>('');
   const [search, setSearch] = React.useState<string>('');
   const [page, setPage] = React.useState(1);
-  const [pageSize, setPageSize] = React.useState(25);
+  const [pageSize, setPageSize] = React.useState(50);
   const [selectedWord, setSelectedWord] = React.useState<Word | null>(null);
 
   const badgeCount =
