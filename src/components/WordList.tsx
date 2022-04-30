@@ -54,11 +54,13 @@ export default function WordList({ words }: WordListProps) {
   const wordNodes = filteredWords.slice(x, x + pageSize).map((word) => (
     <Grid item key={word.value} xs={4}>
       <WordCard word={word} learnMoreHandler={() => setSelectedWord(word)}>
-        <Tooltip title="Mark as learned">
-          <IconButton onClick={() => dispatch(markAsLearned(word.value))}>
-            <Done />
-          </IconButton>
-        </Tooltip>
+        {user && (
+          <Tooltip title="Mark as learned">
+            <IconButton onClick={() => dispatch(markAsLearned(word.value))}>
+              <Done />
+            </IconButton>
+          </Tooltip>
+        )}
       </WordCard>
     </Grid>
   ));

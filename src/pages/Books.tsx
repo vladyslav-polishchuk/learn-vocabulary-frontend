@@ -1,5 +1,13 @@
 import { UploadFile } from '@mui/icons-material';
-import { Box, Typography, Input, Grid, Button, Toolbar } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Input,
+  Grid,
+  Button,
+  Toolbar,
+  Tooltip,
+} from '@mui/material';
 import { ChangeEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +25,9 @@ export default function BooksPage() {
     dispatch(selectFile(file));
   };
 
-  const { books, status } = useSelector((state: RootState) => state.vocabulary);
+  const { books, user, status } = useSelector(
+    (state: RootState) => state.vocabulary
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -37,18 +47,26 @@ export default function BooksPage() {
 
       <Box position="sticky">
         <Toolbar variant="dense" disableGutters sx={{ my: 2 }}>
-          <label htmlFor="contained-button-file">
-            <Input
-              id="contained-button-file"
-              type="file"
-              sx={{ display: 'none' }}
-              onChange={handleFiles}
-            />
-            <Button variant="contained" component="span" fullWidth>
-              <UploadFile sx={{ mr: 1 }} />
-              Pick File
-            </Button>
-          </label>
+          <Tooltip title={user ? '' : 'You have to login to upload books'}>
+            <label htmlFor="contained-button-file">
+              <Input
+                id="contained-button-file"
+                type="file"
+                sx={{ display: 'none' }}
+                onChange={handleFiles}
+                disabled={!user}
+              />
+              <Button
+                variant="contained"
+                component="span"
+                fullWidth
+                disabled={!user}
+              >
+                <UploadFile sx={{ mr: 1 }} />
+                Pick File
+              </Button>
+            </label>
+          </Tooltip>
         </Toolbar>
       </Box>
 

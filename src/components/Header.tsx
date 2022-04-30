@@ -46,11 +46,43 @@ export default function Header() {
   ];
 
   const loginOrProfileButton = user ? (
-    <Tooltip title="Open settings">
-      <IconButton size="large" onClick={handleOpenUserMenu} color="inherit">
-        <AccountCircle />
-      </IconButton>
-    </Tooltip>
+    <>
+      <Tooltip title="Open settings">
+        <IconButton size="large" onClick={handleOpenUserMenu} color="inherit">
+          <AccountCircle />
+        </IconButton>
+      </Tooltip>
+
+      <Menu
+        sx={{ mt: '45px' }}
+        id="menu-appbar"
+        anchorEl={anchorElUser}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        open={Boolean(anchorElUser)}
+        onClose={handleCloseUserMenu}
+      >
+        {settings.map((setting) => (
+          <MenuItem
+            key={setting.label}
+            onClick={() => {
+              setting.click();
+
+              handleCloseUserMenu();
+            }}
+          >
+            <Typography textAlign="center">{setting.label}</Typography>
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
   ) : (
     <Button color="inherit" onClick={() => navigate('/login')}>
       Log in
@@ -78,38 +110,7 @@ export default function Header() {
             />
             Bookabulary ({process.env.REACT_APP_ENV || 'dev'})
           </Typography>
-          <Box sx={{ flexGrow: 0 }}>
-            {loginOrProfileButton}
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting.label}
-                  onClick={() => {
-                    setting.click();
-
-                    handleCloseUserMenu();
-                  }}
-                >
-                  <Typography textAlign="center">{setting.label}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          <Box sx={{ flexGrow: 0 }}>{loginOrProfileButton}</Box>
         </Toolbar>
       </Container>
     </AppBar>
