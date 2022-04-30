@@ -14,9 +14,7 @@ const sendRequest = async (
     body,
     credentials: 'include',
   });
-  const contentType = response.headers.get('content-type');
-  const isContentTypeJson = contentType?.includes('application/json');
-  if (isContentTypeJson) {
+  if (response.ok) {
     return await response.json();
   }
 
