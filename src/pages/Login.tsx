@@ -1,4 +1,5 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Helmet } from 'react-helmet';
 import {
   Stack,
   Link,
@@ -55,6 +56,10 @@ export default function LoginPage() {
       title="Sign in to Bookabulary"
       subtitle="Enter your details below"
     >
+      <Helmet>
+        <title>Bookabulary | Login</title>
+      </Helmet>
+
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
           <Stack spacing={3}>

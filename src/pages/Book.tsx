@@ -1,4 +1,5 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Helmet } from 'react-helmet';
 import { Box, Typography, Button } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +29,9 @@ export default function BookPage() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
+      <Helmet>
+        <title>Bookabulary | {selectedBook.name}</title>
+      </Helmet>
       <Spinner loading={status === 'loading'} />
 
       <Typography

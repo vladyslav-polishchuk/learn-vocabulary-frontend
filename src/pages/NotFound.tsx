@@ -1,6 +1,6 @@
 import NotFoundImage from '../images/not-found.svg';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { Box, Button, Typography } from '@mui/material';
 
@@ -14,6 +14,10 @@ export default function NotFound() {
         mt: 10,
       }}
     >
+      <Helmet>
+        <title>Bookabulary | Not Found</title>
+      </Helmet>
+
       <Typography
         align="center"
         color="textPrimary"

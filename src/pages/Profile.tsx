@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material';
+import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
 import WordList from '../components/WordList';
 import type { RootState } from '../store';
@@ -13,6 +14,10 @@ export default function Profile() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
+      <Helmet>
+        <title>Bookabulary | Progile</title>
+      </Helmet>
+
       <Typography
         align="center"
         color="textPrimary"

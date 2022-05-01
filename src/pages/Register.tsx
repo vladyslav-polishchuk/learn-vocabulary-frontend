@@ -1,4 +1,5 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Helmet } from 'react-helmet';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
@@ -60,6 +61,10 @@ export default function RegisterPage() {
       title="Get started absolutely free"
       subtitle="Free forever. No credit card needed"
     >
+      <Helmet>
+        <title>Bookabulary | Register</title>
+      </Helmet>
+
       <FormikProvider value={formik}>
         <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
           <Stack spacing={3}>

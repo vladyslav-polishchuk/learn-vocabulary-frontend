@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material';
+import { Helmet } from 'react-helmet';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getWords } from '../store/vocabularySlice';
@@ -23,6 +24,10 @@ export default function Words() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
+      <Helmet>
+        <title>Bookabulary | Frequency List</title>
+      </Helmet>
+
       <Spinner loading={status === 'loading'} />
 
       <Typography

@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardActionArea,
 } from '@mui/material';
+import { Helmet } from 'react-helmet';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -58,6 +59,10 @@ export default function BooksPage() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
+      <Helmet>
+        <title>Bookabulary | Books</title>
+      </Helmet>
+
       <Spinner loading={status === 'loading'} />
 
       <Grid item xs={12}>
