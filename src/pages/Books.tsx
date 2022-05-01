@@ -8,6 +8,9 @@ import {
   Toolbar,
   Tooltip,
   TextField,
+  Card,
+  CardHeader,
+  CardActionArea,
 } from '@mui/material';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +18,6 @@ import { useNavigate } from 'react-router-dom';
 import { selectFile, getBooks } from '../store/vocabularySlice';
 import Spinner from '../components/pure/Spinner';
 import Pagination from '../components/pure/Pagination';
-import BookCard from '../components/BookCard';
 import type { RootState } from '../store';
 
 export default function BooksPage() {
@@ -46,15 +48,16 @@ export default function BooksPage() {
   const x = (page - 1) * pageSize;
   const bookNodes = filteredBooks.slice(x, x + pageSize).map((book) => (
     <Grid item key={book.hash} xs={4}>
-      <BookCard
-        book={book}
-        onBookSelect={() => navigate(`/books/${book.hash}`)}
-      ></BookCard>
+      <Card>
+        <CardActionArea onClick={() => navigate(`/books/${book.hash}`)}>
+          <CardHeader title={<Typography> {book.name}</Typography>} />
+        </CardActionArea>
+      </Card>
     </Grid>
   ));
 
   return (
-    <Grid container>
+    <Box sx={{ flexGrow: 1 }}>
       <Spinner loading={status === 'loading'} />
 
       <Grid item xs={12}>
@@ -113,11 +116,11 @@ export default function BooksPage() {
             }}
           />
         </Toolbar>
-
-        <Grid container spacing={2}>
-          {bookNodes}
-        </Grid>
       </Box>
-    </Grid>
+
+      <Grid container spacing={2}>
+        {bookNodes}
+      </Grid>
+    </Box>
   );
 }
