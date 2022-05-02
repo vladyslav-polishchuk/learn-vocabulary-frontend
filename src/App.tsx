@@ -15,6 +15,7 @@ import { getCurrentUser } from './api';
 import { useDispatch } from 'react-redux';
 import { setUser } from './store/vocabularySlice';
 import { useTranslation } from 'react-i18next';
+import ScrollTopButton from './components/pure/ScrollTopButton';
 
 export default function App() {
   useTranslation();
@@ -34,6 +35,7 @@ export default function App() {
         </Grid>
         <Grid item sx={{ my: 5 }}>
           <Container sx={{ mt: '48px' }}>
+            <ScrollTopButton />
             <ErrorBar />
 
             <Routes>
