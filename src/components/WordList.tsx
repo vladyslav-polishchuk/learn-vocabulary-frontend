@@ -74,7 +74,7 @@ export default function WordList({ words }: WordListProps) {
 
       <Box position="sticky">
         <Toolbar variant="dense" disableGutters sx={{ my: 2 }}>
-          <Box sx={{ flexGrow: '1', mx: 1 }}>
+          <Box sx={{ flexGrow: '1' }}>
             <Tooltip
               title={
                 <Trans
