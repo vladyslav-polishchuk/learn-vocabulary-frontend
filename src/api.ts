@@ -1,5 +1,4 @@
 import { serverUrl } from './settings';
-import type { User } from './store/vocabularySlice';
 
 interface RequestParams {
   method?: 'GET' | 'POST' | 'PATCH' | 'DELETE';

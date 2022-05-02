@@ -1,4 +1,4 @@
-import { UploadFile } from '@mui/icons-material';
+import { UploadFile, Visibility } from '@mui/icons-material';
 import {
   Box,
   Typography,
@@ -11,6 +11,7 @@ import {
   Card,
   CardHeader,
   CardActionArea,
+  CardActions,
 } from '@mui/material';
 import { Helmet } from 'react-helmet';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -53,6 +54,22 @@ export default function BooksPage() {
       <Card>
         <CardActionArea onClick={() => navigate(`/books/${book.hash}`)}>
           <CardHeader title={<Typography> {book.name}</Typography>} />
+          <CardActions
+            disableSpacing
+            sx={{ display: 'flex', justifyContent: 'flex-end' }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                color: 'grey.500',
+                mr: 1,
+              }}
+            >
+              <Visibility sx={{ width: 16, height: 16, mr: 0.5 }} />
+              <Typography variant="caption">{book.views}</Typography>
+            </Box>
+          </CardActions>
         </CardActionArea>
       </Card>
     </Grid>

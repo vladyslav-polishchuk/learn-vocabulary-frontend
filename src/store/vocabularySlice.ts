@@ -1,13 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { serverUrl } from '../settings';
 
-export interface User {
-  email: string;
-  token: string;
-  language: string;
-  learnedWords: string[];
-}
-
 export interface VocabularyState {
   selectedBook: Book | null;
   words: Word[];
