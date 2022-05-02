@@ -14,13 +14,16 @@ import {
 import * as yup from 'yup';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Trans } from 'react-i18next';
 import { useFormik, Form, FormikProvider } from 'formik';
+import { useTranslation } from 'react-i18next';
 import AuthControl from '../components/AuthControl';
 import { useDispatch } from 'react-redux';
 import { login } from '../api';
 import { setUser, setError } from '../store/vocabularySlice';
 
 export default function LoginPage() {
+  const { i18n } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -43,6 +46,10 @@ export default function LoginPage() {
       try {
         const user = await login(email, password);
         dispatch(setUser(user));
+
+        i18n.changeLanguage(user.language);
+        localStorage.setItem('i18nextLng', user.language);
+
         navigate('/books');
       } catch (e: any) {
         dispatch(setError(e.message));
@@ -53,8 +60,8 @@ export default function LoginPage() {
 
   return (
     <AuthControl
-      title="Sign in to Bookabulary"
-      subtitle="Enter your details below"
+      title={<Trans i18nKey="login-title" />}
+      subtitle={<Trans i18nKey="login-subtitle" />}
     >
       <Helmet>
         <title>Bookabulary | Login</title>
@@ -67,7 +74,7 @@ export default function LoginPage() {
               fullWidth
               autoComplete="username"
               type="email"
-              label="Email address"
+              label={<Trans i18nKey="email" />}
               {...getFieldProps('email')}
               error={Boolean(touched.email && errors.email)}
               helperText={touched.email && errors.email}
@@ -77,7 +84,7 @@ export default function LoginPage() {
               fullWidth
               autoComplete="current-password"
               type={showPassword ? 'text' : 'password'}
-              label="Password"
+              label={<Trans i18nKey="password" />}
               {...getFieldProps('password')}
               InputProps={{
                 endAdornment: (
@@ -109,7 +116,7 @@ export default function LoginPage() {
                   checked={values.remember}
                 />
               }
-              label="Remember me"
+              label={<Trans i18nKey="remember-me" />}
             />
 
             <Link
@@ -118,25 +125,25 @@ export default function LoginPage() {
               to="/not-implemented"
               underline="hover"
             >
-              Forgot password?
+              <Trans i18nKey="forget-password" />
             </Link>
           </Stack>
 
           <Button fullWidth size="large" type="submit" variant="contained">
-            Login
+            <Trans i18nKey="login" />
           </Button>
         </Form>
       </FormikProvider>
 
       <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-        Don’t have an account?&nbsp;
+        <Trans i18nKey="no-account" />{' '}
         <Link
           variant="subtitle2"
           component={RouterLink}
           to="/register"
           underline="hover"
         >
-          Get started
+          <Trans i18nKey="get-started" />
         </Link>
       </Typography>
     </AuthControl>

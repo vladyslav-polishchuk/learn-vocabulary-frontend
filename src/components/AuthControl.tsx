@@ -1,10 +1,11 @@
 import { Google } from '@mui/icons-material';
 import { Button, Divider, Typography, Container, Stack } from '@mui/material';
 import type { ReactElement } from 'react';
+import { Trans } from 'react-i18next';
 
 interface AuthControlProps {
-  title: string;
-  subtitle: string;
+  title: ReactElement;
+  subtitle: ReactElement;
   children: ReactElement[];
 }
 
@@ -36,7 +37,7 @@ export default function AuthControl({
 
       <Divider sx={{ my: 3 }}>
         <Typography variant="body2" color="text.secondary">
-          OR
+          <Trans i18nKey="or" />
         </Typography>
       </Divider>
 

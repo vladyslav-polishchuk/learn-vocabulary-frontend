@@ -1,4 +1,5 @@
 ﻿import * as React from 'react';
+import { Trans } from 'react-i18next';
 import { Box, Pagination, TextField, MenuItem } from '@mui/material';
 
 interface PaginationProps {
@@ -10,10 +11,6 @@ interface PaginationProps {
 }
 
 const resultsPerPage = [
-  {
-    value: 10,
-    label: '10',
-  },
   {
     value: 25,
     label: '25',
@@ -49,9 +46,9 @@ export default function PaginationComponent({
       }}
     >
       <TextField
-        sx={{ width: '60px' }}
+        sx={{ minWidth: '80px' }}
         select
-        label="Page Size"
+        label={<Trans i18nKey="page-size" />}
         onChange={handleChange}
         variant="standard"
         defaultValue={defaultPageSize}

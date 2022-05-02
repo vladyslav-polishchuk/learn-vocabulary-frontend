@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import { Helmet } from 'react-helmet';
+import { Trans } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import WordList from '../components/WordList';
 import type { RootState } from '../store';
@@ -24,7 +25,7 @@ export default function Profile() {
         variant="h2"
         sx={{ fontWeight: 'bold' }}
       >
-        Your learned words
+        <Trans i18nKey="learned-words" />
       </Typography>
 
       <WordList words={words} />

@@ -4,6 +4,7 @@ import { serverUrl } from '../settings';
 export interface User {
   email: string;
   token: string;
+  language: string;
   learnedWords: string[];
 }
 

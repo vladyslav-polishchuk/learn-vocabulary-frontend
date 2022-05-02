@@ -12,6 +12,7 @@ import {
   Badge,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { Trans } from 'react-i18next';
 import type { RootState } from '../store';
 import { markAsLearned } from '../store/vocabularySlice';
 import Spinner from './pure/Spinner';
@@ -55,7 +56,7 @@ export default function WordList({ words }: WordListProps) {
     <Grid item key={word.value} xs={4}>
       <WordCard word={word} learnMoreHandler={() => setSelectedWord(word)}>
         {user && (
-          <Tooltip title="Mark as learned">
+          <Tooltip title={<Trans i18nKey="mark-learned" />}>
             <IconButton onClick={() => dispatch(markAsLearned(word.value))}>
               <Done />
             </IconButton>
@@ -74,7 +75,13 @@ export default function WordList({ words }: WordListProps) {
       <Box position="sticky">
         <Toolbar variant="dense" disableGutters sx={{ my: 2 }}>
           <Box sx={{ flexGrow: '1', mx: 1 }}>
-            <Tooltip title="Add Filters">
+            <Tooltip
+              title={
+                <Trans
+                  i18nKey={filterOpened ? 'hide-filters' : 'show-filters'}
+                />
+              }
+            >
               <IconButton
                 color="primary"
                 component="span"
@@ -129,7 +136,7 @@ export default function WordList({ words }: WordListProps) {
               sx={{ mr: 1 }}
               variant="outlined"
               size="small"
-              label="Find"
+              label={<Trans i18nKey="search" />}
               value={search}
               onChange={(e) => {
                 setSearch(e?.target?.value);

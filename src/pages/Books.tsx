@@ -20,6 +20,7 @@ import { selectFile, getBooks } from '../store/vocabularySlice';
 import Spinner from '../components/pure/Spinner';
 import Pagination from '../components/pure/Pagination';
 import type { RootState } from '../store';
+import { Trans } from 'react-i18next';
 
 export default function BooksPage() {
   const [search, setSearch] = useState<string>('');
@@ -67,7 +68,7 @@ export default function BooksPage() {
 
       <Grid item xs={12}>
         <Typography variant="h3" align="center" sx={{ fontWeight: 'bold' }}>
-          Book List
+          <Trans i18nKey="books-title" />
         </Typography>
       </Grid>
 
@@ -92,7 +93,7 @@ export default function BooksPage() {
                   sx={{ lineHeight: 1 }}
                 >
                   <UploadFile sx={{ mr: 1 }} />
-                  Pick File
+                  <Trans i18nKey="pick-file" />
                 </Button>
               </label>
             </Tooltip>
@@ -101,7 +102,7 @@ export default function BooksPage() {
               sx={{ mx: 1 }}
               variant="outlined"
               size="small"
-              label="Search"
+              label={<Trans i18nKey="search" />}
               value={search}
               onChange={(e) => {
                 setSearch(e?.target?.value);

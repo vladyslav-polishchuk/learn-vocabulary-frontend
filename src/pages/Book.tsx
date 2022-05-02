@@ -8,6 +8,7 @@ import { getBook } from '../store/vocabularySlice';
 import Spinner from '../components/pure/Spinner';
 import WordList from '../components/WordList';
 import type { RootState } from '../store';
+import { Trans } from 'react-i18next';
 
 export default function BookPage() {
   const { bookId } = useParams();
@@ -50,7 +51,7 @@ export default function BookPage() {
         sx={{ my: 5 }}
         variant="contained"
       >
-        Back to books
+        <Trans i18nKey="back-to-books" />
       </Button>
 
       <WordList words={filteredWords} />

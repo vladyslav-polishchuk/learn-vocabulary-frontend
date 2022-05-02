@@ -6,6 +6,7 @@ import { getWords } from '../store/vocabularySlice';
 import Spinner from '../components/pure/Spinner';
 import WordList from '../components/WordList';
 import type { RootState } from '../store';
+import { Trans } from 'react-i18next';
 
 export default function Words() {
   const { words, status, user } = useSelector(
@@ -36,7 +37,7 @@ export default function Words() {
         variant="h2"
         sx={{ fontWeight: 'bold' }}
       >
-        Frequency List
+        <Trans i18nKey="words-title" />
       </Typography>
 
       <WordList words={filteredWords} />

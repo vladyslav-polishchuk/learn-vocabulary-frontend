@@ -7,6 +7,7 @@ import {
   Stack,
   Tooltip,
 } from '@mui/material';
+import { Trans } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import ListenIcon from '@mui/icons-material/VolumeUp';
 import type { ReactNode } from 'react';
@@ -59,10 +60,10 @@ export default function WordCard({
       <CardHeader title={title} />
       <CardActions disableSpacing>
         <Button size="small" color="primary" onClick={learnMoreHandler}>
-          Learn more
+          <Trans i18nKey="learn-more" />
         </Button>
 
-        <Tooltip title="Listen">
+        <Tooltip title={<Trans i18nKey="listen" />}>
           <IconButton
             sx={{ ml: 'auto' }}
             onClick={() => listenClick(word.value)}

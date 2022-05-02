@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Container, Grid } from '@mui/material';
-import Header from './components/Header';
+import Header from './components/header/Header';
 import HomePage from './pages/Home';
 import WordsPage from './pages/Words';
 import BooksPage from './pages/Books';
@@ -14,14 +14,17 @@ import { useEffect } from 'react';
 import { getCurrentUser } from './api';
 import { useDispatch } from 'react-redux';
 import { setUser } from './store/vocabularySlice';
+import { useTranslation } from 'react-i18next';
 
 export default function App() {
+  useTranslation();
+
   const dispatch = useDispatch();
   useEffect(() => {
     getCurrentUser().then((user) => {
       dispatch(setUser(user));
     });
-  });
+  }, [dispatch]);
 
   return (
     <BrowserRouter>

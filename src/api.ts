@@ -1,18 +1,21 @@
 import { serverUrl } from './settings';
+import type { User } from './store/vocabularySlice';
 
 interface RequestParams {
-  method?: 'GET' | 'POST' | 'DELETE';
+  method?: 'GET' | 'POST' | 'PATCH' | 'DELETE';
   body?: any;
+  headers?: any;
 }
 
 const sendRequest = async (
   url: string,
-  { method = 'GET', body }: RequestParams = {}
+  { method = 'GET', body, headers }: RequestParams = {}
 ) => {
   const response = await fetch(`${serverUrl}/${url}`, {
     method,
     body,
     credentials: 'include',
+    headers,
   });
   if (response.ok) {
     return await response.json();
@@ -33,10 +36,15 @@ export const login = async (email: string, password: string) => {
   });
 };
 
-export const register = async (email: string, password: string) => {
+export const register = async (
+  email: string,
+  password: string,
+  language: string
+) => {
   const formData = new FormData();
   formData.append('email', email);
   formData.append('password', password);
+  formData.append('language', language);
 
   return await sendRequest(`register`, {
     method: 'POST',
@@ -52,4 +60,14 @@ export const logout = async () => {
 
 export const getCurrentUser = async () => {
   return await sendRequest(`user/current`);
+};
+
+export const updateUser = async (user: Partial<User>) => {
+  return await sendRequest(`user`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ user }),
+  });
 };

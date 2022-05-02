@@ -1,6 +1,7 @@
 import { Box, Button } from '@mui/material';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
+import { Trans } from 'react-i18next';
 
 export default function Home() {
   return (
@@ -10,10 +11,10 @@ export default function Home() {
       </Helmet>
 
       <Button component={Link} to="/words" sx={{ my: 5 }} fullWidth>
-        See all words
+        <Trans i18nKey="allwords" />
       </Button>
       <Button component={Link} to="/books" fullWidth>
-        See all books
+        <Trans i18nKey="allbooks" />
       </Button>
     </Box>
   );
