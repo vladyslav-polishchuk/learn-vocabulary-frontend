@@ -18,14 +18,19 @@ import { useTranslation } from 'react-i18next';
 import ScrollTopButton from './components/pure/ScrollTopButton';
 
 export default function App() {
-  useTranslation();
-
   const dispatch = useDispatch();
-  useEffect(() => {
-    getCurrentUser().then((user) => {
+  const setCurrentUser = async () => {
+    try {
+      const user = await getCurrentUser();
       dispatch(setUser(user));
-    });
-  }, [dispatch]);
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    setCurrentUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useTranslation();
 
   return (
     <BrowserRouter>
