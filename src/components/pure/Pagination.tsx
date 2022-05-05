@@ -51,7 +51,7 @@ export default function PaginationComponent({
         label={<Trans i18nKey="page-size" />}
         onChange={handleChange}
         variant="standard"
-        defaultValue={defaultPageSize}
+        value={defaultPageSize}
       >
         {resultsPerPage.map((option) => (
           <MenuItem key={option.value} value={option.value}>
