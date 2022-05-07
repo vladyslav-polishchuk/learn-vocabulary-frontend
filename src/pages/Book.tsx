@@ -5,14 +5,13 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { getBook } from '../store/vocabularySlice';
-import Spinner from '../components/pure/Spinner';
 import WordList from '../components/WordList';
 import type { RootState } from '../store';
 import { Trans } from 'react-i18next';
 
 export default function BookPage() {
   const { bookId } = useParams();
-  const { selectedBook, status, user } = useSelector(
+  const { selectedBook, user } = useSelector(
     (state: RootState) => state.vocabulary
   );
   const dispatch = useDispatch();
@@ -33,7 +32,6 @@ export default function BookPage() {
       <Helmet>
         <title>Bookabulary | {selectedBook.name}</title>
       </Helmet>
-      <Spinner loading={status === 'loading'} />
 
       <Typography
         align="center"

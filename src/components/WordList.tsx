@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Trans } from 'react-i18next';
 import type { RootState } from '../store';
 import { markAsLearned } from '../store/vocabularySlice';
-import Spinner from './pure/Spinner';
 import WordCard from './WordCard';
 import WordDialog from './WordDialog';
 import Pagination from './pure/Pagination';
@@ -37,7 +36,7 @@ export default function WordList({ words }: WordListProps) {
     0 + (search ? 1 : 0) + (minLength ? 1 : 0) + (maxLength ? 1 : 0);
 
   const dispatch = useDispatch();
-  const { status, user } = useSelector((state: RootState) => state.vocabulary);
+  const { user } = useSelector((state: RootState) => state.vocabulary);
 
   const filteredWords = words.filter((word) => {
     const minLengthNum = parseInt(minLength ?? '') || 0;
@@ -68,8 +67,6 @@ export default function WordList({ words }: WordListProps) {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Spinner loading={status === 'loading'} />
-
       <WordDialog word={selectedWord} onClose={() => setSelectedWord(null)} />
 
       <Box position="sticky">

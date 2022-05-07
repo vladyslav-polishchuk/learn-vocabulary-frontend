@@ -3,15 +3,12 @@ import { Helmet } from 'react-helmet';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getWords } from '../store/vocabularySlice';
-import Spinner from '../components/pure/Spinner';
 import WordList from '../components/WordList';
 import type { RootState } from '../store';
 import { Trans } from 'react-i18next';
 
 export default function Words() {
-  const { words, status, user } = useSelector(
-    (state: RootState) => state.vocabulary
-  );
+  const { words, user } = useSelector((state: RootState) => state.vocabulary);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,8 +25,6 @@ export default function Words() {
       <Helmet>
         <title>Bookabulary | Frequency List</title>
       </Helmet>
-
-      <Spinner loading={status === 'loading'} />
 
       <Typography
         align="center"

@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Container, Grid } from '@mui/material';
 import Header from './components/header/Header';
@@ -16,8 +17,11 @@ import { useDispatch } from 'react-redux';
 import { setUser } from './store/vocabularySlice';
 import { useTranslation } from 'react-i18next';
 import ScrollTopButton from './components/pure/ScrollTopButton';
+import Spinner from './components/pure/Spinner';
+import type { RootState } from './store';
 
 export default function App() {
+  const { status } = useSelector((state: RootState) => state.vocabulary);
   const dispatch = useDispatch();
   const setCurrentUser = async () => {
     try {
@@ -42,6 +46,7 @@ export default function App() {
           <Container sx={{ mt: '48px' }}>
             <ScrollTopButton />
             <ErrorBar />
+          <Spinner loading={status === 'loading'} />
 
             <Routes>
               <Route path="/" element={<HomePage />}></Route>

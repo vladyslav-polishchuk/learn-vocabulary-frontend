@@ -18,7 +18,6 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { selectFile, getBooks } from '../store/vocabularySlice';
-import Spinner from '../components/pure/Spinner';
 import Pagination from '../components/pure/Pagination';
 import type { RootState } from '../store';
 import { Trans } from 'react-i18next';
@@ -41,9 +40,7 @@ export default function BooksPage() {
     const file = input.files[0];
     dispatch(selectFile(file));
   };
-  const { books, user, status } = useSelector(
-    (state: RootState) => state.vocabulary
-  );
+  const { books, user } = useSelector((state: RootState) => state.vocabulary);
   const filteredBooks = books.filter((book) => {
     return book.name.toLowerCase().includes(search);
   });
@@ -80,8 +77,6 @@ export default function BooksPage() {
       <Helmet>
         <title>Bookabulary | Books</title>
       </Helmet>
-
-      <Spinner loading={status === 'loading'} />
 
       <Grid item xs={12}>
         <Typography variant="h3" align="center" sx={{ fontWeight: 'bold' }}>
