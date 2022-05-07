@@ -17,7 +17,7 @@ import type { RootState } from '../store';
 import { markAsLearned } from '../store/vocabularySlice';
 import WordCard from './WordCard';
 import WordDialog from './WordDialog';
-import Pagination from './pure/Pagination';
+import Pagination from './presentational/Pagination';
 
 interface WordListProps {
   words: Word[];

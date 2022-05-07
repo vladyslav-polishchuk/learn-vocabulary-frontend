@@ -1,5 +1,4 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Helmet } from 'react-helmet';
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
@@ -18,6 +17,7 @@ import AuthControl from '../components/AuthControl';
 import { useDispatch } from 'react-redux';
 import { setUser, setError } from '../store/vocabularySlice';
 import { register } from '../api';
+import Page from '../components/presentational/Page';
 
 export default function RegisterPage() {
   const { i18n } = useTranslation();
@@ -59,79 +59,77 @@ export default function RegisterPage() {
   );
 
   return (
-    <AuthControl
-      title={<Trans i18nKey="register-title" />}
-      subtitle={<Trans i18nKey="register-subtitle" />}
-    >
-      <Helmet>
-        <title>Bookabulary | Register</title>
-      </Helmet>
+    <Page title="Register">
+      <AuthControl
+        title={<Trans i18nKey="register-title" />}
+        subtitle={<Trans i18nKey="register-subtitle" />}
+      >
+        <FormikProvider value={formik}>
+          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+            <Stack spacing={3}>
+              <TextField
+                fullWidth
+                autoComplete="username"
+                type="email"
+                label={<Trans i18nKey="email" />}
+                {...getFieldProps('email')}
+                error={Boolean(touched.email && errors.email)}
+                helperText={touched.email && errors.email}
+              />
 
-      <FormikProvider value={formik}>
-        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Stack spacing={3}>
-            <TextField
-              fullWidth
-              autoComplete="username"
-              type="email"
-              label={<Trans i18nKey="email" />}
-              {...getFieldProps('email')}
-              error={Boolean(touched.email && errors.email)}
-              helperText={touched.email && errors.email}
-            />
+              <TextField
+                fullWidth
+                autoComplete="current-password"
+                type={showPassword ? 'text' : 'password'}
+                label={<Trans i18nKey="password" />}
+                {...getFieldProps('password')}
+                InputProps={{ endAdornment: showPasswordButton }}
+                error={Boolean(touched.password && errors.password)}
+                helperText={touched.password && errors.password}
+              />
 
-            <TextField
-              fullWidth
-              autoComplete="current-password"
-              type={showPassword ? 'text' : 'password'}
-              label={<Trans i18nKey="password" />}
-              {...getFieldProps('password')}
-              InputProps={{ endAdornment: showPasswordButton }}
-              error={Boolean(touched.password && errors.password)}
-              helperText={touched.password && errors.password}
-            />
+              <TextField
+                fullWidth
+                autoComplete="current-password"
+                type={showPassword ? 'text' : 'password'}
+                label={<Trans i18nKey="confirm-password" />}
+                {...getFieldProps('confirmPassword')}
+                InputProps={{ endAdornment: showPasswordButton }}
+                error={Boolean(touched.password && errors.password)}
+                helperText={touched.password && errors.password}
+              />
 
-            <TextField
-              fullWidth
-              autoComplete="current-password"
-              type={showPassword ? 'text' : 'password'}
-              label={<Trans i18nKey="confirm-password" />}
-              {...getFieldProps('confirmPassword')}
-              InputProps={{ endAdornment: showPasswordButton }}
-              error={Boolean(touched.password && errors.password)}
-              helperText={touched.password && errors.password}
-            />
+              <Typography
+                variant="body2"
+                align="center"
+                sx={{ color: 'text.secondary', mt: 3 }}
+              >
+                <Trans i18nKey="agree-terms" />{' '}
+                <Link underline="always" color="textPrimary">
+                  <Trans i18nKey="terms-policies" />
+                </Link>
+                .
+              </Typography>
 
-            <Typography
-              variant="body2"
-              align="center"
-              sx={{ color: 'text.secondary', mt: 3 }}
-            >
-              <Trans i18nKey="agree-terms" />{' '}
-              <Link underline="always" color="textPrimary">
-                <Trans i18nKey="terms-policies" />
-              </Link>
-              .
-            </Typography>
+              <Button fullWidth size="large" type="submit" variant="contained">
+                <Trans i18nKey="get-started" />
+              </Button>
+            </Stack>
+          </Form>
+        </FormikProvider>
 
-            <Button fullWidth size="large" type="submit" variant="contained">
-              <Trans i18nKey="get-started" />
-            </Button>
-          </Stack>
-        </Form>
-      </FormikProvider>
-
-      <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-        <Trans i18nKey="have-account" />{' '}
-        <Link
-          underline="hover"
-          variant="subtitle2"
-          to="/login"
-          component={RouterLink}
-        >
-          <Trans i18nKey="login" />
-        </Link>
-      </Typography>
-    </AuthControl>
+        <Typography variant="body2" align="center" sx={{ mt: 3 }}>
+          <Trans i18nKey="have-account" />{' '}
+          <Link
+            underline="hover"
+            variant="subtitle2"
+            to="/login"
+            component={RouterLink}
+          >
+            <Trans i18nKey="login" />
+          </Link>
+        </Typography>
+      </AuthControl>
+    </Page>
   );
 }

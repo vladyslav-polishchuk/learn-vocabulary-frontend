@@ -1,5 +1,4 @@
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Helmet } from 'react-helmet';
 import {
   Stack,
   Link,
@@ -21,6 +20,7 @@ import AuthControl from '../components/AuthControl';
 import { useDispatch } from 'react-redux';
 import { login } from '../api';
 import { setUser, setError } from '../store/vocabularySlice';
+import Page from '../components/presentational/Page';
 
 export default function LoginPage() {
   const { i18n } = useTranslation();
@@ -59,93 +59,91 @@ export default function LoginPage() {
   const { errors, touched, values, handleSubmit, getFieldProps } = formik;
 
   return (
-    <AuthControl
-      title={<Trans i18nKey="login-title" />}
-      subtitle={<Trans i18nKey="login-subtitle" />}
-    >
-      <Helmet>
-        <title>Bookabulary | Login</title>
-      </Helmet>
+    <Page title="Login">
+      <AuthControl
+        title={<Trans i18nKey="login-title" />}
+        subtitle={<Trans i18nKey="login-subtitle" />}
+      >
+        <FormikProvider value={formik}>
+          <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+            <Stack spacing={3}>
+              <TextField
+                fullWidth
+                autoComplete="username"
+                type="email"
+                label={<Trans i18nKey="email" />}
+                {...getFieldProps('email')}
+                error={Boolean(touched.email && errors.email)}
+                helperText={touched.email && errors.email}
+              />
 
-      <FormikProvider value={formik}>
-        <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <Stack spacing={3}>
-            <TextField
-              fullWidth
-              autoComplete="username"
-              type="email"
-              label={<Trans i18nKey="email" />}
-              {...getFieldProps('email')}
-              error={Boolean(touched.email && errors.email)}
-              helperText={touched.email && errors.email}
-            />
+              <TextField
+                fullWidth
+                autoComplete="current-password"
+                type={showPassword ? 'text' : 'password'}
+                label={<Trans i18nKey="password" />}
+                {...getFieldProps('password')}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword((show) => !show)}
+                        edge="end"
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                error={Boolean(touched.password && errors.password)}
+                helperText={touched.password && errors.password}
+              />
+            </Stack>
 
-            <TextField
-              fullWidth
-              autoComplete="current-password"
-              type={showPassword ? 'text' : 'password'}
-              label={<Trans i18nKey="password" />}
-              {...getFieldProps('password')}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPassword((show) => !show)}
-                      edge="end"
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              error={Boolean(touched.password && errors.password)}
-              helperText={touched.password && errors.password}
-            />
-          </Stack>
-
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            sx={{ my: 2 }}
-          >
-            <FormControlLabel
-              control={
-                <Checkbox
-                  {...getFieldProps('remember')}
-                  checked={values.remember}
-                />
-              }
-              label={<Trans i18nKey="remember-me" />}
-            />
-
-            <Link
-              component={RouterLink}
-              variant="subtitle2"
-              to="/not-implemented"
-              underline="hover"
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              sx={{ my: 2 }}
             >
-              <Trans i18nKey="forget-password" />
-            </Link>
-          </Stack>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    {...getFieldProps('remember')}
+                    checked={values.remember}
+                  />
+                }
+                label={<Trans i18nKey="remember-me" />}
+              />
 
-          <Button fullWidth size="large" type="submit" variant="contained">
-            <Trans i18nKey="login" />
-          </Button>
-        </Form>
-      </FormikProvider>
+              <Link
+                component={RouterLink}
+                variant="subtitle2"
+                to="/not-implemented"
+                underline="hover"
+              >
+                <Trans i18nKey="forget-password" />
+              </Link>
+            </Stack>
 
-      <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-        <Trans i18nKey="no-account" />{' '}
-        <Link
-          variant="subtitle2"
-          component={RouterLink}
-          to="/register"
-          underline="hover"
-        >
-          <Trans i18nKey="get-started" />
-        </Link>
-      </Typography>
-    </AuthControl>
+            <Button fullWidth size="large" type="submit" variant="contained">
+              <Trans i18nKey="login" />
+            </Button>
+          </Form>
+        </FormikProvider>
+
+        <Typography variant="body2" align="center" sx={{ mt: 3 }}>
+          <Trans i18nKey="no-account" />{' '}
+          <Link
+            variant="subtitle2"
+            component={RouterLink}
+            to="/register"
+            underline="hover"
+          >
+            <Trans i18nKey="get-started" />
+          </Link>
+        </Typography>
+      </AuthControl>
+    </Page>
   );
 }

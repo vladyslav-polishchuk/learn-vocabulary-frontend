@@ -13,14 +13,14 @@ import {
   CardActionArea,
   CardActions,
 } from '@mui/material';
-import { Helmet } from 'react-helmet';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { selectFile, getBooks } from '../store/vocabularySlice';
-import Pagination from '../components/pure/Pagination';
-import type { RootState } from '../store';
 import { Trans } from 'react-i18next';
+import { selectFile, getBooks } from '../store/vocabularySlice';
+import Pagination from '../components/presentational/Pagination';
+import Page from '../components/presentational/Page';
+import type { RootState } from '../store';
 
 export default function BooksPage() {
   const [search, setSearch] = useState<string>('');
@@ -73,11 +73,7 @@ export default function BooksPage() {
   ));
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Helmet>
-        <title>Bookabulary | Books</title>
-      </Helmet>
-
+    <Page title="Books">
       <Grid item xs={12}>
         <Typography variant="h3" align="center" sx={{ fontWeight: 'bold' }}>
           <Trans i18nKey="books-title" />
@@ -139,6 +135,6 @@ export default function BooksPage() {
       <Grid container spacing={2}>
         {bookNodes}
       </Grid>
-    </Box>
+    </Page>
   );
 }

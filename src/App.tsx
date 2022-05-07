@@ -14,9 +14,9 @@ import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import ErrorBar from './components/ErrowBar';
 import { setUser } from './store/vocabularySlice';
-import ScrollTopButton from './components/pure/ScrollTopButton';
+import ScrollTopButton from './components/presentational/ScrollTopButton';
 import Footer from './components/Footer';
-import Spinner from './components/pure/Spinner';
+import Spinner from './components/presentational/Spinner';
 import { getCurrentUser } from './api';
 import type { RootState } from './store';
 
@@ -45,7 +45,7 @@ export default function App() {
       >
           <Header />
 
-        <Container sx={{ py: 2, mb: 'auto' }} component="main">
+        <Container sx={{ py: 3, mb: 'auto' }} component="main">
             <ScrollTopButton />
             <ErrorBar />
           <Spinner loading={status === 'loading'} />

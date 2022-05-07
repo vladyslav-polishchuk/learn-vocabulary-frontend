@@ -1,13 +1,13 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Helmet } from 'react-helmet';
-import { Box, Typography, Button } from '@mui/material';
+import { Typography, Button } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
+import { Trans } from 'react-i18next';
 import { getBook } from '../store/vocabularySlice';
 import WordList from '../components/WordList';
+import Page from '../components/presentational/Page';
 import type { RootState } from '../store';
-import { Trans } from 'react-i18next';
 
 export default function BookPage() {
   const { bookId } = useParams();
@@ -28,15 +28,11 @@ export default function BookPage() {
   });
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Helmet>
-        <title>Bookabulary | {selectedBook.name}</title>
-      </Helmet>
-
+    <Page title={selectedBook.name}>
       <Typography
         align="center"
         color="textPrimary"
-        variant="h2"
+        variant="h3"
         sx={{ fontWeight: 'bold' }}
       >
         {selectedBook.name}
@@ -53,6 +49,6 @@ export default function BookPage() {
       </Button>
 
       <WordList words={filteredWords} />
-    </Box>
+    </Page>
   );
 }

@@ -1,11 +1,11 @@
-import { Box, Typography } from '@mui/material';
-import { Helmet } from 'react-helmet';
+import { Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getWords } from '../store/vocabularySlice';
 import WordList from '../components/WordList';
 import type { RootState } from '../store';
 import { Trans } from 'react-i18next';
+import Page from '../components/presentational/Page';
 
 export default function Words() {
   const { words, user } = useSelector((state: RootState) => state.vocabulary);
@@ -21,21 +21,17 @@ export default function Words() {
   });
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Helmet>
-        <title>Bookabulary | Frequency List</title>
-      </Helmet>
-
+    <Page title="Frequency List">
       <Typography
         align="center"
         color="textPrimary"
-        variant="h2"
+        variant="h3"
         sx={{ fontWeight: 'bold' }}
       >
         <Trans i18nKey="words-title" />
       </Typography>
 
       <WordList words={filteredWords} />
-    </Box>
+    </Page>
   );
 }
