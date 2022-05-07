@@ -38,8 +38,11 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Grid container direction="column">
-        <Grid item>
+      <Grid
+        container
+        direction="column"
+        sx={{ minHeight: '100vh', backgroundColor: '#f2f3f4' }}
+      >
           <Header />
         </Grid>
         <Grid item sx={{ my: 5 }}>
