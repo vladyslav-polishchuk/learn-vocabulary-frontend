@@ -42,6 +42,7 @@ i18n
           'books-title': 'Books List',
           'back-to-books': 'Back To Books',
           'learned-words': 'Your learned words',
+          'login-first': 'You have to login to upload books',
         },
       },
       ru: {
@@ -80,6 +81,7 @@ i18n
           'books-title': 'Все книги',
           'back-to-books': 'Вернуться к книгам',
           'learned-words': 'Ваши выученные слова',
+          'login-first': 'Войдите чтобы выполнить это действие',
         },
       },
       ua: {
@@ -118,6 +120,7 @@ i18n
           'books-title': 'Усі книги',
           'back-to-books': 'Повернутися до книг',
           'learned-words': 'Ваші вивчені слова',
+          'login-first': 'Увійдіть щоб виконати операцію',
         },
       },
     },

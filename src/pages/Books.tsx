@@ -87,7 +87,7 @@ export default function BooksPage() {
       <Box position="sticky">
         <Toolbar variant="dense" disableGutters sx={{ my: 2 }}>
           <Box sx={{ flexGrow: '1' }}>
-            <Tooltip title={user ? '' : 'You have to login to upload books'}>
+            <Tooltip title={user ? '' : <Trans i18nKey="login-first" />}>
               <label htmlFor="contained-button-file">
                 <Input
                   id="contained-button-file"
