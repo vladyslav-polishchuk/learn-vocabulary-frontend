@@ -20,7 +20,7 @@ export default function Header() {
   const { user } = useSelector((state: RootState) => state.vocabulary);
 
   return (
-    <AppBar position="fixed">
+    <AppBar position="sticky">
       <Container>
         <Toolbar variant="dense" sx={{ height: '56px' }} disableGutters>
           <Typography

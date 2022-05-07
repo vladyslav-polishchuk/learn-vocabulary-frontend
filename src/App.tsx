@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Container, Grid } from '@mui/material';
 import Header from './components/header/Header';
 import HomePage from './pages/Home';
@@ -11,13 +13,11 @@ import NotFoundPage from './pages/NotFound';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import ErrorBar from './components/ErrowBar';
-import { useEffect } from 'react';
-import { getCurrentUser } from './api';
-import { useDispatch } from 'react-redux';
 import { setUser } from './store/vocabularySlice';
-import { useTranslation } from 'react-i18next';
 import ScrollTopButton from './components/pure/ScrollTopButton';
+import Footer from './components/Footer';
 import Spinner from './components/pure/Spinner';
+import { getCurrentUser } from './api';
 import type { RootState } from './store';
 
 export default function App() {
@@ -44,9 +44,8 @@ export default function App() {
         sx={{ minHeight: '100vh', backgroundColor: '#f2f3f4' }}
       >
           <Header />
-        </Grid>
-        <Grid item sx={{ my: 5 }}>
-          <Container sx={{ mt: '48px' }}>
+
+        <Container sx={{ py: 2, mb: 'auto' }} component="main">
             <ScrollTopButton />
             <ErrorBar />
           <Spinner loading={status === 'loading'} />
@@ -62,7 +61,8 @@ export default function App() {
               <Route path="*" element={<NotFoundPage />}></Route>
             </Routes>
           </Container>
-        </Grid>
+
+        <Footer />
       </Grid>
     </BrowserRouter>
   );
