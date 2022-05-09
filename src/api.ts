@@ -70,3 +70,23 @@ export const updateUser = async (user: Partial<User>) => {
     body: JSON.stringify({ user }),
   });
 };
+
+export const markAsLearned = async (words: string[]) => {
+  return await sendRequest(`word/learned`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ words }),
+  });
+};
+
+export const removeFromLearned = async (words: string[]) => {
+  return await sendRequest(`word/learned`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ words }),
+  });
+};

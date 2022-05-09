@@ -65,13 +65,16 @@ export const vocabularySlice = createSlice({
   name: 'vocabulary',
   initialState,
   reducers: {
-    markAsLearned: (state, action) => {
-      state.user?.learnedWords.push(action.payload);
+    markAsLearned: ({ user }, action) => {
+      if (user) {
+        user.learnedWords = [...user.learnedWords, ...action.payload];
+      }
     },
-    removeFromLearned: (state, action) => {
-      if (state.user) {
-        state.user.learnedWords = state.user.learnedWords.filter(
-          (word) => word !== action.payload
+    removeFromLearned: ({ user }, action) => {
+      if (user) {
+        const removeWordsSet = new Set(action.payload);
+        user.learnedWords = user.learnedWords.filter(
+          (word) => !removeWordsSet.has(word)
         );
       }
     },

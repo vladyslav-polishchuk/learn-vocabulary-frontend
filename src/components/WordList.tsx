@@ -1,6 +1,5 @@
-import { FilterAlt, FilterAltOff, Done } from '@mui/icons-material';
-
-import React from 'react';
+import { FilterAlt, FilterAltOff } from '@mui/icons-material';
+import React, { ReactNode } from 'react';
 import {
   Box,
   Grid,
@@ -11,19 +10,17 @@ import {
   Collapse,
   Badge,
 } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
 import { Trans } from 'react-i18next';
-import type { RootState } from '../store';
-import { markAsLearned } from '../store/vocabularySlice';
-import WordCard from './WordCard';
+import WordCard from './presentational/WordCard';
 import WordDialog from './WordDialog';
 import Pagination from './presentational/Pagination';
 
 interface WordListProps {
   words: Word[];
+  createCardContent?: (word: Word) => ReactNode;
 }
 
-export default function WordList({ words }: WordListProps) {
+export default function WordList({ words, createCardContent }: WordListProps) {
   const [filterOpened, setFilterOpened] = React.useState(false);
   const [minLength, setMinLength] = React.useState<string>('');
   const [maxLength, setMaxLength] = React.useState<string>('');
@@ -33,19 +30,15 @@ export default function WordList({ words }: WordListProps) {
   const [selectedWord, setSelectedWord] = React.useState<Word | null>(null);
 
   const badgeCount =
-    0 + (search ? 1 : 0) + (minLength ? 1 : 0) + (maxLength ? 1 : 0);
-
-  const dispatch = useDispatch();
-  const { user } = useSelector((state: RootState) => state.vocabulary);
-
-  const filteredWords = words.filter((word) => {
+    (search ? 1 : 0) + (minLength ? 1 : 0) + (maxLength ? 1 : 0);
+  const filteredWords = words.filter(({ value }) => {
     const minLengthNum = parseInt(minLength ?? '') || 0;
     const maxLengthNum = parseInt(maxLength ?? '') || 20;
 
     return (
-      word.value.length >= minLengthNum &&
-      word.value.length <= maxLengthNum &&
-      word.value.includes(search)
+      value.length >= minLengthNum &&
+      value.length <= maxLengthNum &&
+      value.includes(search)
     );
   });
 
@@ -54,19 +47,13 @@ export default function WordList({ words }: WordListProps) {
   const wordNodes = filteredWords.slice(x, x + pageSize).map((word) => (
     <Grid item key={word.value} xs={4}>
       <WordCard word={word} learnMoreHandler={() => setSelectedWord(word)}>
-        {user && (
-          <Tooltip title={<Trans i18nKey="mark-learned" />}>
-            <IconButton onClick={() => dispatch(markAsLearned(word.value))}>
-              <Done />
-            </IconButton>
-          </Tooltip>
-        )}
+        {createCardContent?.(word)}
       </WordCard>
     </Grid>
   ));
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <>
       <WordDialog word={selectedWord} onClose={() => setSelectedWord(null)} />
 
       <Box position="sticky">
@@ -163,6 +150,6 @@ export default function WordList({ words }: WordListProps) {
           {wordNodes}
         </Grid>
       </Grid>
-    </Box>
+    </>
   );
 }
